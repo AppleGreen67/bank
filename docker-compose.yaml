@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  bank-front-app:
+    container_name: bank-front_c
+    build:
+      context: .
+      dockerfile: bank-front-app/Dockerfile
+    restart: always
+    ports:
+      - "8081:8080"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
