@@ -12,6 +12,17 @@ services:
     networks:
       - app-network
 
+  accounts:
+    container_name: accounts_c
+    build:
+      context: .
+      dockerfile: accounts/Dockerfile
+    restart: always
+#    ports:
+#      - "8081:8080"
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
