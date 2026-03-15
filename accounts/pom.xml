@@ -93,7 +93,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>../openapi.yaml</inputSpec>
+                            <inputSpec>${basedir}/../openapi.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <apiPackage>ru.yandex.practicum.server.api</apiPackage>
                             <invokerPackage>ru.yandex.server</invokerPackage>

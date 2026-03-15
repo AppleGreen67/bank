@@ -9,10 +9,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          # Адрес issuer (Keycloak realm). Gateway по нему получает ключи
-          # и параметры токена, чтобы валидировать JWT от UI
           issuer-uri: http://localhost:8080/realms/bank-realm
-
   cloud:
     gateway:
       server:
