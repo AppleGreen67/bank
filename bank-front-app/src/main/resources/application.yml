@@ -1,6 +1,10 @@
 server:
   port: 8084
 
+bank:
+  gateway:
+    base-url: http://localhost:8081
+
 spring:
   application:
     name: bank-front-app

@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.yandex.practicum.mybankfront.controller.dto.CashAction;
 import ru.yandex.practicum.mybankfront.controller.stub.AccountStub;
+import ru.yandex.practicum.mybankfront.service.AccountsService;
+import ru.yandex.server.domain.UserAccount;
 
 import java.time.LocalDate;
 
@@ -38,6 +40,9 @@ public class MainController {
     @Autowired
     private AccountStub accountStub;
 
+    @Autowired
+    private AccountsService accountsService;
+
     /**
      * GET /.
      * Редирект на GET /account
@@ -57,7 +62,11 @@ public class MainController {
     @GetMapping("/account")
     public String getAccount(Model model) {
         // TODO: Заменить на то, что описано в комментарии к методу
+
+        UserAccount account = accountsService.getAccount();
+
         accountStub.fillModel(model, null, null);
+
 
         return "main";
     }
