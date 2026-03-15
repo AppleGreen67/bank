@@ -1,0 +1,88 @@
+openapi: 3.0.3
+info:
+  title: Accounts Service API
+  description: API для сервиса аккаунтов
+  version: 1.0.0
+tags:
+  - name: Accounts
+    description: Получение аккаунтов
+paths:
+  /account:
+    get:
+      tags:
+        - Account
+      summary: Получение аккаунта
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAccount'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Внутренняя ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /accounts:
+    get:
+      tags:
+        - Account
+      summary: Получение аккаунтов
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserAccount'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Внутренняя ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    UserAccount:
+      type: object
+      required:
+        - login
+        - name
+      properties:
+        login:
+          type: string
+        name:
+          type: string
+        birthdate:
+          type: string
+        sum:
+          type: integer
+
+    ErrorResponse:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          description: Код ошибки
+        message:
+          type: string
+          description: Описание ошибки
