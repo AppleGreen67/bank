@@ -11,17 +11,28 @@ services:
       - "8084:8080"
     networks:
       - app-network
-
-  accounts:
-    container_name: accounts_c
-    build:
-      context: .
-      dockerfile: accounts/Dockerfile
-    restart: always
+#
+#  accounts:
+#    container_name: accounts_c
+#    build:
+#      context: .
+#      dockerfile: accounts/Dockerfile
+#    restart: always
+##    ports:
+##      - "8081:8080"
+#    networks:
+#      - app-network
+#
+#  gateway:
+#    container_name: gateway_c
+#    build:
+#      context: .
+#      dockerfile: gateway/Dockerfile
+#    restart: always
 #    ports:
 #      - "8081:8080"
-    networks:
-      - app-network
+#    networks:
+#      - app-network
 
   keycloak:
     image: quay.io/keycloak/keycloak:24.0.5
@@ -30,14 +41,17 @@ services:
       - start-dev
       - --http-port=8080
       - --import-realm
+      - --verbose
     volumes:
       - ./keycloak-config:/opt/keycloak/data/import
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-      KC_HOSTNAME: localhost
+#      KC_HOSTNAME: localhost
     ports:
       - "8080:8080"
+    networks:
+      - app-network
 
 networks:
   app-network:

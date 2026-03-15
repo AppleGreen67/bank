@@ -5,8 +5,12 @@ WORKDIR /app
 COPY pom.xml .
 
 COPY bank-front-app/pom.xml bank-front-app/
+COPY gateway/pom.xml gateway/
 
 COPY accounts/pom.xml accounts/
+
+RUN mvn dependency:go-offline -B
+
 COPY accounts/src accounts/src
 
 RUN mvn clean package -pl accounts
