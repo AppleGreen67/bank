@@ -44,7 +44,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/UserAccount'
+                  $ref: '#/components/schemas/UserAccountSmall'
         '400':
           description: Некорректный запрос
           content:
@@ -73,6 +73,16 @@ components:
           type: string
         sum:
           type: integer
+    UserAccountSmall:
+      type: object
+      required:
+        - login
+        - name
+      properties:
+        login:
+          type: string
+        name:
+          type: string
 
     ErrorResponse:
       type: object

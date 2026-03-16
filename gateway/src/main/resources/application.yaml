@@ -22,7 +22,7 @@ spring:
               uri: http://localhost:8082
               predicates:
                 # Все запросы с путём /account/** попадут на этот маршрут
-                - Path=/account/**
+                - Path=/account/**, /accounts/**
               filters:
                 # Подключаем кастомный фильтр Token Relay
                 # Он берёт JWT и добавляет заголовок Authorization к исходящему запросу
