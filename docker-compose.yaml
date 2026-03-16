@@ -44,7 +44,7 @@ services:
 
   postgres:
     image: postgres:15-alpine
-    container_name: myapp-postgres
+    container_name: postgres
     environment:
       POSTGRES_DB: mydb
       POSTGRES_USER: myuser
@@ -53,6 +53,7 @@ services:
       - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
+      - ./init-schemas.sql:/docker-entrypoint-initdb.d/init-schemas.sql
 #      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - app-network
@@ -61,7 +62,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
 
   keycloak:
     image: quay.io/keycloak/keycloak:24.0.5
@@ -74,11 +74,19 @@ services:
     volumes:
       - ./keycloak-config:/opt/keycloak/data/import
     environment:
+      KC_DB: postgres
+      KC_DB_SCHEMA: keycloak
+      KC_DB_URL: jdbc:postgresql://postgres:5432/mydb?currentSchema=keycloak
+      KC_DB_USERNAME: myuser
+      KC_DB_PASSWORD: mypassword
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
 #      KC_HOSTNAME: localhost
     ports:
       - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
     networks:
       - app-network
 

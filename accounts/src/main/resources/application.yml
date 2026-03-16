@@ -6,7 +6,7 @@ spring:
     name: accounts
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/mydb
+    url: jdbc:postgresql://localhost:5432/mydb?currentSchema=app_accounts
     username: myuser
     password: mypassword
     driver-class-name: org.postgresql.Driver
@@ -16,6 +16,7 @@ spring:
       connection-timeout: 20000
       idle-timeout: 300000
       max-lifetime: 1200000
+      schema: app_accounts
 
   jpa:
     hibernate:
@@ -24,6 +25,9 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
+        default_schema: app_accounts
+        hbm2ddl:
+          create_namespaces: true
     show-sql: true
 
   sql:
