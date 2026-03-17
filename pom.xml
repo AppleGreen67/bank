@@ -23,6 +23,7 @@
         <module>bank-front-app</module>
         <module>accounts</module>
         <module>gateway</module>
+        <module>cash</module>
     </modules>
 
 

@@ -3,23 +3,24 @@ FROM maven:3.9-eclipse-temurin-21 AS build
 WORKDIR /app
 
 COPY pom.xml .
+COPY openapi.yaml .
 
-COPY accounts/pom.xml accounts/
 COPY bank-front-app/pom.xml bank-front-app/
-COPY cash/pom.xml cash/
-
 COPY gateway/pom.xml gateway/
+COPY accounts/pom.xml accounts/
+
+COPY cash/pom.xml cash/
 
 RUN mvn dependency:go-offline -B
 
-COPY gateway/src gateway/src
+COPY cash/src cash/src
 
-RUN mvn clean package -pl gateway
+RUN mvn clean package -pl cash
 
 FROM eclipse-temurin:21-jre-alpine
 
-COPY --from=build /app/gateway/target/*.jar gateway.jar
+COPY --from=build /app/cash/target/*.jar cash.jar
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "gateway.jar"]
+CMD ["java", "-jar", "cash.jar"]

@@ -1,8 +1,7 @@
 package ru.yandex.practicum.mybankfront.service;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
+import ru.yandex.practicum.mybankfront.client.AccountsClient;
 import ru.yandex.server.domain.UserAccount;
 import ru.yandex.server.domain.UserAccountSmall;
 
@@ -11,31 +10,19 @@ import java.util.List;
 
 @Component
 public class AccountsService {
-    private final WebClient gatewayWebClient;
-    private final String gatewayBaseUrl;
 
-    public AccountsService(WebClient gatewayWebClient,
-                           @Value("${bank.gateway.base-url}") String gatewayBaseUrl) {
-        this.gatewayWebClient = gatewayWebClient;
-        this.gatewayBaseUrl = gatewayBaseUrl;
+    private final AccountsClient client;
+
+    public AccountsService(AccountsClient client) {
+        this.client = client;
     }
 
     public UserAccount getAccount() {
-        return gatewayWebClient
-                .get()
-                .uri(gatewayBaseUrl + "/account")
-                .retrieve()
-                .bodyToMono(UserAccount.class)
-                .block();
+        return client.getAccount();
     }
 
     public List<UserAccountSmall> getAccounts() {
-        return gatewayWebClient
-                .get()
-                .uri(gatewayBaseUrl + "/accounts")
-                .retrieve()
-                .bodyToFlux(UserAccountSmall.class)
-                .collectList().block();
+        return client.getAccounts();
     }
 
     public UserAccount updateAccount(String name, LocalDate birthdate) {
@@ -43,13 +30,7 @@ public class AccountsService {
         userAccount.setName(name);
         userAccount.setBirthdate(birthdate.toString());
 
-        return gatewayWebClient
-                .post()
-                .uri(gatewayBaseUrl + "/account")
-                .bodyValue(userAccount)
-                .retrieve()
-                .bodyToMono(UserAccount.class)
-                .block();
+        return client.updateAccount(userAccount);
     }
 
 //    public String submitTransfer(String fromAccountId, String toAccountId, BigDecimal amount) {

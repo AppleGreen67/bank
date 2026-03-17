@@ -7,6 +7,7 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import ru.yandex.practicum.mybankfront.controller.dto.AccountDto;
+import ru.yandex.practicum.mybankfront.controller.dto.CashAction;
 import ru.yandex.practicum.mybankfront.controller.dto.ModelDto;
 import ru.yandex.server.domain.UserAccount;
 import ru.yandex.server.domain.UserAccountSmall;
@@ -43,13 +44,28 @@ public class ModelService {
         return modelDto;
     }
 
-    public void fillModel(Model model, ModelDto account,
+    public ModelDto createModel(UserAccount account, List<UserAccountSmall> accounts, boolean updateCashResult, CashAction action) {
+        ModelDto modelDto = createModel(account, accounts);
+
+        if (updateCashResult) {
+            modelDto.setMessage();
+        } else {
+            modelDto.setErrors();
+        }
+    }
+
+    public void fillModel(Model model, ModelDto modelDto,
                           @Nullable List<String> errors, @Nullable String info) {
-        model.addAttribute("name", account.getName());
-        model.addAttribute("birthdate", account.getBirthdate());
-        model.addAttribute("sum", account.getSum());
-        model.addAttribute("accounts", account.getAccounts());
+        model.addAttribute("name", modelDto.getName());
+        model.addAttribute("birthdate", modelDto.getBirthdate());
+        model.addAttribute("sum", modelDto.getSum());
+        model.addAttribute("accounts", modelDto.getAccounts());
+        model.addAttribute("errors", modelDto.getErrors());
         model.addAttribute("errors", errors);
+        model.addAttribute("info", modelDto.getMessage());
         model.addAttribute("info", info);
     }
+
+
+
 }

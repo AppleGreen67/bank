@@ -13,4 +13,6 @@ public interface AccountRepository extends CrudRepository<Account, Long> {
     List<Account> findAll();
 
     Account findByLogin(String login);
+
+    Integer findAmountByLogin(String login);
 }

@@ -42,6 +42,17 @@ services:
 #    networks:
 #      - app-network
 
+#  cash:
+#    container_name: cash_c
+#    build:
+#      context: .
+#      dockerfile: cash/Dockerfile
+#    restart: always
+#    ports:
+#      - "8085:8085"
+#    networks:
+#      - app-network
+
   postgres:
     image: postgres:15-alpine
     container_name: postgres

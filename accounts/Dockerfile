@@ -7,6 +7,7 @@ COPY openapi.yaml .
 
 COPY bank-front-app/pom.xml bank-front-app/
 COPY gateway/pom.xml gateway/
+COPY cash/pom.xml cash/
 
 COPY accounts/pom.xml accounts/
 

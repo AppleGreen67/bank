@@ -1,0 +1,31 @@
+server:
+  port: 8085
+
+#bank:
+#  accounts:
+#    base-url: http://localhost:8082
+
+bank:
+  gateway:
+    base-url: http://localhost:8081
+
+spring:
+  application:
+    name: cash
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/bank-realm
+
+      client:
+        registration:
+          transfer-service:
+            provider: keycloak
+            client-id: transfer-service
+            client-secret: ZY4fuQa2weoz2SV60g6kberJPoMX9rxd
+            authorization-grant-type: client_credentials
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8080/realms/bank-realm

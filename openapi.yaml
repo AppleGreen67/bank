@@ -31,6 +31,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+    post:
+      tags:
+        - Account
+      summary: Редактирование аккаунта
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserAccount'
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAccount'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Внутренняя ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /accounts:
     get:
       tags:
@@ -45,6 +74,37 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/UserAccountSmall'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Внутренняя ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /cash:
+    post:
+      tags:
+        - Cash
+      summary: Пополнение счёта или снятие денег со счёта
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CashRequest'
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: integer
         '400':
           description: Некорректный запрос
           content:
@@ -82,6 +142,17 @@ components:
         login:
           type: string
         name:
+          type: string
+
+    CashRequest:
+      type: object
+      required:
+        - sum
+        - action
+      properties:
+        sum:
+          type: integer
+        action:
           type: string
 
     ErrorResponse:

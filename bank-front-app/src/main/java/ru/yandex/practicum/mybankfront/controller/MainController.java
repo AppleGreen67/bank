@@ -1,21 +1,16 @@
 package ru.yandex.practicum.mybankfront.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.ReactiveSecurityContextHolder;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import reactor.core.publisher.Mono;
 import ru.yandex.practicum.mybankfront.controller.dto.CashAction;
 import ru.yandex.practicum.mybankfront.controller.dto.ModelDto;
 import ru.yandex.practicum.mybankfront.controller.stub.AccountStub;
 import ru.yandex.practicum.mybankfront.service.AccountsService;
+import ru.yandex.practicum.mybankfront.service.CashService;
 import ru.yandex.practicum.mybankfront.service.ModelService;
 import ru.yandex.server.domain.UserAccount;
 import ru.yandex.server.domain.UserAccountSmall;
@@ -53,6 +48,8 @@ public class MainController {
     @Autowired
     private AccountsService accountsService;
     @Autowired
+    private CashService cashService;
+    @Autowired
     private ModelService modelService;
 
     /**
@@ -77,7 +74,7 @@ public class MainController {
         List<UserAccountSmall> accounts = accountsService.getAccounts();
         ModelDto modelDto = modelService.createModel(account, accounts);
 
-        modelService.fillModel(model, modelDto, null, null);
+        modelService.fillModel(model, modelDto);
 
         return "main";
     }
@@ -100,7 +97,7 @@ public class MainController {
         List<UserAccountSmall> accounts = accountsService.getAccounts();
         ModelDto modelDto = modelService.createModel(account, accounts);
 
-        modelService.fillModel(model, modelDto, null, null);
+        modelService.fillModel(model, modelDto);
 
         return "main";
     }
@@ -117,13 +114,17 @@ public class MainController {
      * 2. action - GET (снять), PUT (пополнить)
      */
     @PostMapping("/cash")
-    public String editCash(
-            Model model,
-            @RequestParam("value") int value,
-            @RequestParam("action") CashAction action
-    ) {
+    public String editCash(Model model, @RequestParam("value") int value, @RequestParam("action") CashAction action) {
         // TODO: Заменить на то, что описано в комментарии к методу
-        accountStub.editCash(model, value, action);
+//        accountStub.editCash(model, value, action);
+
+        boolean updateCashResult = cashService.updateCash(value, action);
+
+        UserAccount account = accountsService.getAccount();
+        List<UserAccountSmall> accounts = accountsService.getAccounts();
+        ModelDto modelDto = modelService.createModel(account, accounts, updateCashResult, action);
+
+        modelService.fillModel(model, modelDto);
 
         return "main";
     }
