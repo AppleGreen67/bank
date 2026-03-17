@@ -6,6 +6,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import ru.yandex.server.domain.UserAccount;
 import ru.yandex.server.domain.UserAccountSmall;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -37,6 +38,20 @@ public class AccountsService {
                 .collectList().block();
     }
 
+    public UserAccount updateAccount(String name, LocalDate birthdate) {
+        UserAccount userAccount = new UserAccount();
+        userAccount.setName(name);
+        userAccount.setBirthdate(birthdate.toString());
+
+        return gatewayWebClient
+                .post()
+                .uri(gatewayBaseUrl + "/account")
+                .bodyValue(userAccount)
+                .retrieve()
+                .bodyToMono(UserAccount.class)
+                .block();
+    }
+
 //    public String submitTransfer(String fromAccountId, String toAccountId, BigDecimal amount) {
 //        TransferRequest request = new TransferRequest();
 //        request.setFromAccountId(fromAccountId);
@@ -45,7 +60,7 @@ public class AccountsService {
 //
 //        return gatewayWebClient
 //                .post()
-//                .uri(gatewayBaseUrl + "/transfers")
+    //                .uri(gatewayBaseUrl + "/transfers")
 //                .bodyValue(request)
 //                .retrieve()
 //                .bodyToMono(String.class)

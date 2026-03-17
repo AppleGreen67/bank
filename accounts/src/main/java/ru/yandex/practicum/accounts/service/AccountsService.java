@@ -6,6 +6,7 @@ import ru.yandex.practicum.accounts.repository.AccountRepository;
 import ru.yandex.server.domain.UserAccount;
 import ru.yandex.server.domain.UserAccountSmall;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -50,5 +51,20 @@ public class AccountsService {
         userAccount.setLogin(account.getLogin());
         userAccount.setName(account.getName());
         return userAccount;
+    }
+
+
+    public UserAccount updateAccount(String login, UserAccount updatedAccount) {
+        Account accountFromDB = accountRepository.findByLogin(login);
+
+        if (accountFromDB == null) return null;
+
+        accountFromDB.setName(updatedAccount.getName());
+        if (updatedAccount.getBirthdate() != null)
+            accountFromDB.setBirthdate(LocalDate.parse(updatedAccount.getBirthdate()));
+
+        accountRepository.save(accountFromDB);
+
+        return mapToUA(accountFromDB);
     }
 }

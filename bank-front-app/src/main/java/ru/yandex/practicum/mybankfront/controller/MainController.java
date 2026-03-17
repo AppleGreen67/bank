@@ -73,18 +73,11 @@ public class MainController {
      */
     @GetMapping("/account")
     public String getAccount(Model model) {
-        System.out.println("I'm here");
-        // TODO: Заменить на то, что описано в комментарии к методу
-
         UserAccount account = accountsService.getAccount();
         List<UserAccountSmall> accounts = accountsService.getAccounts();
         ModelDto modelDto = modelService.createModel(account, accounts);
 
         modelService.fillModel(model, modelDto, null, null);
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        ((OidcUser) authentication.getPrincipal()).getPreferredUsername();
-
 
         return "main";
     }
@@ -101,14 +94,13 @@ public class MainController {
      * 2. birthdate - дата рождения в формате YYYY-DD-MM
      */
     @PostMapping("/account")
-    public String editAccount(
-            Model model,
-            @RequestParam("name") String name,
-            @RequestParam("birthdate") LocalDate birthdate
-    ) {
-        // TODO: Заменить на то, что описано в комментарии к методу
-        accountStub.setNameAndBirthdate(name, birthdate);
-        accountStub.fillModel(model, null, null);
+    public String editAccount(Model model, @RequestParam("name") String name,
+                              @RequestParam("birthdate") LocalDate birthdate) {
+        UserAccount account = accountsService.updateAccount(name, birthdate);
+        List<UserAccountSmall> accounts = accountsService.getAccounts();
+        ModelDto modelDto = modelService.createModel(account, accounts);
+
+        modelService.fillModel(model, modelDto, null, null);
 
         return "main";
     }

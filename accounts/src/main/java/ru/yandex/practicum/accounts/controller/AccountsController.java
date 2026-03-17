@@ -4,6 +4,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import ru.yandex.practicum.accounts.service.AccountsService;
 import ru.yandex.server.domain.UserAccount;
 import ru.yandex.server.domain.UserAccountSmall;
@@ -32,6 +34,21 @@ public class AccountsController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body(userAccount);
+    }
+
+    @PostMapping("/account")
+    public ResponseEntity<UserAccount> accountPost(@RequestBody UserAccount userAccount, JwtAuthenticationToken authentication) {
+
+        String login = authentication.getToken().getClaimAsString("preferred_username");
+        System.out.println("login: " + login);
+
+        UserAccount updatedAccount = accountService.updateAccount(login, userAccount);
+
+        if (updatedAccount == null) {
+            System.out.println("ERROR: не нашли пользователя по логину login=" + login);
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(updatedAccount);
     }
 
     @GetMapping("/accounts")
