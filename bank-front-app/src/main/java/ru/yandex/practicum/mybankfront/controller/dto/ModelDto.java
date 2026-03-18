@@ -10,6 +10,9 @@ public class ModelDto {
     private Integer sum;
     private List<AccountDto> accounts;
 
+    private List<String> errors;
+    private String message;
+
     public String getLogin() {
         return login;
     }
@@ -48,5 +51,21 @@ public class ModelDto {
 
     public void setAccounts(List<AccountDto> accounts) {
         this.accounts = accounts;
+    }
+
+    public List<String> getErrors() {
+        return errors;
+    }
+
+    public void setErrors(List<String> errors) {
+        this.errors = errors;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

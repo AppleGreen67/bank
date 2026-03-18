@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import ru.yandex.practicum.cash.service.AccountsService;
 import ru.yandex.server.domain.CashRequest;
-import ru.yandex.server.domain.UserAccount;
 
 @Controller
 public class CashController {
@@ -24,7 +23,7 @@ public class CashController {
         System.out.println("summ: " + request.getSum());
         System.out.println("action: " + request.getAction());
 
-        Integer sum = accountsService.updateAccount(request);
+        Integer sum = accountsService.updateAccount(request, login);
 
         //todo обработка ошибок
 

@@ -12,8 +12,8 @@ public class AccountsService {
         this.client = client;
     }
 
-    public Integer updateAccount(CashRequest request) {
-        return client.updateSum(request);
+    public Integer updateAccount(CashRequest request, String login) {
+        return client.updateSum(request, login);
     }
 
 }

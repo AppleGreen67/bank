@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import ru.yandex.practicum.accounts.service.SumService;
@@ -17,9 +18,8 @@ public class SumController {
         this.sumService = sumService;
     }
 
-    @PostMapping("/change")
-    public ResponseEntity<Integer> updateSum(@RequestBody CashRequest request, JwtAuthenticationToken authentication) {
-        String login = authentication.getToken().getClaimAsString("preferred_username");
+    @PostMapping("{login}/change")
+    public ResponseEntity<Integer> updateSum(@PathVariable String login, @RequestBody CashRequest request, JwtAuthenticationToken authentication) {
         System.out.println("login: " + login);
         System.out.println("summ: " + request.getSum());
         System.out.println("action: " + request.getAction());

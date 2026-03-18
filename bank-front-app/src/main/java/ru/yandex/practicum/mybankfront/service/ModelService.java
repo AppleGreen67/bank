@@ -1,6 +1,5 @@
 package ru.yandex.practicum.mybankfront.service;
 
-import jakarta.annotation.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
@@ -26,6 +25,7 @@ public class ModelService {
         ModelDto modelDto = new ModelDto();
         modelDto.setLogin(currentAccount.getLogin());
         modelDto.setName(currentAccount.getName());
+        modelDto.setSum(currentAccount.getSum());
         modelDto.setBirthdate(currentAccount.getBirthdate());
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -44,26 +44,25 @@ public class ModelService {
         return modelDto;
     }
 
-    public ModelDto createModel(UserAccount account, List<UserAccountSmall> accounts, boolean updateCashResult, CashAction action) {
+    public ModelDto createModel(UserAccount account, List<UserAccountSmall> accounts, boolean updateCashResult, int value, CashAction action) {
         ModelDto modelDto = createModel(account, accounts);
 
         if (updateCashResult) {
-            modelDto.setMessage();
+            modelDto.setMessage(action == CashAction.GET ? "Снято %d руб".formatted(value) : "Положено %d руб".formatted(value));
         } else {
-            modelDto.setErrors();
+            modelDto.setErrors(List.of("Недостаточно средств на счету"));
         }
+
+        return modelDto;
     }
 
-    public void fillModel(Model model, ModelDto modelDto,
-                          @Nullable List<String> errors, @Nullable String info) {
+    public void fillModel(Model model, ModelDto modelDto) {
         model.addAttribute("name", modelDto.getName());
         model.addAttribute("birthdate", modelDto.getBirthdate());
         model.addAttribute("sum", modelDto.getSum());
         model.addAttribute("accounts", modelDto.getAccounts());
         model.addAttribute("errors", modelDto.getErrors());
-        model.addAttribute("errors", errors);
         model.addAttribute("info", modelDto.getMessage());
-        model.addAttribute("info", info);
     }
 
 

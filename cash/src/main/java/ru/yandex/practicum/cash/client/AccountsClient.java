@@ -1,29 +1,21 @@
 package ru.yandex.practicum.cash.client;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import ru.yandex.server.domain.CashRequest;
-import ru.yandex.server.domain.UserAccount;
-import ru.yandex.server.domain.UserAccountSmall;
-
-import java.util.List;
 
 @Component
 public class AccountsClient {
-    private final WebClient gatewayWebClient;
-    private final String gatewayBaseUrl;
+    private final WebClient accountsWebClient;
 
-    public AccountsClient(WebClient gatewayWebClient,
-                          @Value("${bank.gateway.base-url}") String gatewayBaseUrl) {
-        this.gatewayWebClient = gatewayWebClient;
-        this.gatewayBaseUrl = gatewayBaseUrl;
+    public AccountsClient(WebClient accountsWebClient) {
+        this.accountsWebClient = accountsWebClient;
     }
 
-    public Integer updateSum(CashRequest request) {
-        return gatewayWebClient
+    public Integer updateSum(CashRequest request, String login) {
+        return accountsWebClient
                 .post()
-                .uri(gatewayBaseUrl + "/change")
+                .uri("/{login}/change", login)
                 .bodyValue(request)
                 .retrieve()
                 .bodyToMono(Integer.class)

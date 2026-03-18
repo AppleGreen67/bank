@@ -115,14 +115,11 @@ public class MainController {
      */
     @PostMapping("/cash")
     public String editCash(Model model, @RequestParam("value") int value, @RequestParam("action") CashAction action) {
-        // TODO: Заменить на то, что описано в комментарии к методу
-//        accountStub.editCash(model, value, action);
-
         boolean updateCashResult = cashService.updateCash(value, action);
 
         UserAccount account = accountsService.getAccount();
         List<UserAccountSmall> accounts = accountsService.getAccounts();
-        ModelDto modelDto = modelService.createModel(account, accounts, updateCashResult, action);
+        ModelDto modelDto = modelService.createModel(account, accounts, updateCashResult, value, action);
 
         modelService.fillModel(model, modelDto);
 
