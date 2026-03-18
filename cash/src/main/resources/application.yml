@@ -3,7 +3,7 @@ server:
 
 bank:
   accounts:
-    base-url: http://localhost:8082
+    base-url: http://accounts:8082
 
 spring:
   application:
@@ -13,7 +13,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/bank-realm
+          issuer-uri: ${KEYCLOAK_EXTERNAL_URL}/realms/bank-realm
+          jwk-set-uri: ${KEYCLOAK_INTERNAL_URL}/realms/bank-realm/protocol/openid-connect/certs
 
       client:
         registration:
@@ -24,4 +25,4 @@ spring:
             authorization-grant-type: client_credentials
         provider:
           keycloak:
-            issuer-uri: http://localhost:8080/realms/bank-realm
+            token-uri: ${KEYCLOAK_INTERNAL_URL}/realms/bank-realm/protocol/openid-connect/token

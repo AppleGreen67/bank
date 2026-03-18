@@ -1,12 +1,17 @@
 server:
   port: 8082
 
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
+
 spring:
   application:
     name: accounts
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/mydb?currentSchema=app_accounts
+    url: jdbc:postgresql://postgres:5432/mydb?currentSchema=app_accounts
     username: myuser
     password: mypassword
     driver-class-name: org.postgresql.Driver
@@ -39,7 +44,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/bank-realm
+          issuer-uri: ${KEYCLOAK_EXTERNAL_URL}/realms/bank-realm
+          jwk-set-uri: ${KEYCLOAK_INTERNAL_URL}/realms/bank-realm/protocol/openid-connect/certs
 
       client:
         registration:
@@ -50,4 +56,4 @@ spring:
             authorization-grant-type: client_credentials
         provider:
           keycloak:
-            issuer-uri: http://localhost:8080/realms/bank-realm
+            token-uri: ${KEYCLOAK_INTERNAL_URL}/realms/bank-realm/protocol/openid-connect/token

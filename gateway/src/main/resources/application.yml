@@ -9,20 +9,21 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/bank-realm
+          issuer-uri: ${KEYCLOAK_EXTERNAL_URL}/realms/bank-realm
+          jwk-set-uri: ${KEYCLOAK_INTERNAL_URL}/realms/bank-realm/protocol/openid-connect/certs
   cloud:
     gateway:
       server:
         webflux:
           routes:
             - id: accounts-service
-              uri: http://localhost:8082
+              uri: http://accounts:8082
               predicates:
                 - Path=/account/**, /accounts/**
               filters:
                 - name: JwtTokenRelay
             - id: cash-service
-              uri: http://localhost:8085
+              uri: http://cash:8085
               predicates:
                 - Path=/cash/**
               filters:

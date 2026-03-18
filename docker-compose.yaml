@@ -1,57 +1,68 @@
 version: '3.8'
 
 services:
-#  bank-front-app:
-#    container_name: bank-front_c
-#    build:
-#      context: .
-#      dockerfile: bank-front-app/Dockerfile
-#    restart: always
-#    ports:
-#      - "8084:8080"
-#    networks:
-#      - app-network
+  bank-front-app:
+    container_name: bank-front_c
+    build:
+      context: .
+      dockerfile: bank-front-app/Dockerfile
+    restart: always
+    ports:
+      - "8084:8084"
+    networks:
+      - app-network
+    environment:
+      KEYCLOAK_INTERNAL_URL: http://keycloak:8080
+      KEYCLOAK_EXTERNAL_URL: http://localhost:8080
 
-#  accounts:
-#    container_name: accounts_c
-#    build:
-#      context: .
-#      dockerfile: accounts/Dockerfile
-#    restart: always
-#    ports:
-#      - "8082:8082"
-#    environment:
-#      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mydb
-#      SPRING_DATASOURCE_USERNAME: myuser
-#      SPRING_DATASOURCE_PASSWORD: mypassword
-#      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-#    depends_on:
-#      postgres:
-#        condition: service_healthy
-#    networks:
-#      - app-network
-#
-#  gateway:
-#    container_name: gateway_c
-#    build:
-#      context: .
-#      dockerfile: gateway/Dockerfile
-#    restart: always
-#    ports:
-#      - "8081:8081"
-#    networks:
-#      - app-network
+  accounts:
+    container_name: accounts_c
+    build:
+      context: .
+      dockerfile: accounts/Dockerfile
+    restart: always
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mydb
+      SPRING_DATASOURCE_USERNAME: myuser
+      SPRING_DATASOURCE_PASSWORD: mypassword
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      KEYCLOAK_INTERNAL_URL: http://keycloak:8080
+      KEYCLOAK_EXTERNAL_URL: http://localhost:8080
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - app-network
 
-#  cash:
-#    container_name: cash_c
-#    build:
-#      context: .
-#      dockerfile: cash/Dockerfile
-#    restart: always
-#    ports:
-#      - "8085:8085"
-#    networks:
-#      - app-network
+  gateway:
+    container_name: gateway_c
+    build:
+      context: .
+      dockerfile: gateway/Dockerfile
+    restart: always
+    ports:
+      - "8081:8081"
+    networks:
+      - app-network
+    environment:
+      KEYCLOAK_INTERNAL_URL: http://keycloak:8080
+      KEYCLOAK_EXTERNAL_URL: http://localhost:8080
+
+  cash:
+    container_name: cash_c
+    build:
+      context: .
+      dockerfile: cash/Dockerfile
+    restart: always
+    ports:
+      - "8085:8085"
+    networks:
+      - app-network
+    environment:
+      KEYCLOAK_INTERNAL_URL: http://keycloak:8080
+      KEYCLOAK_EXTERNAL_URL: http://localhost:8080
 
   postgres:
     image: postgres:15-alpine
@@ -92,7 +103,11 @@ services:
       KC_DB_PASSWORD: mypassword
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-#      KC_HOSTNAME: localhost
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 8080
+      KC_HOSTNAME_STRICT: false
+      KC_HOSTNAME_STRICT_HTTPS: false
+      KC_PROXY: edge
     ports:
       - "8080:8080"
     depends_on:

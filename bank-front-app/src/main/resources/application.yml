@@ -3,7 +3,7 @@ server:
 
 bank:
   gateway:
-    base-url: http://localhost:8081
+    base-url: http://gateway:8081
 
 spring:
   application:
@@ -22,4 +22,6 @@ spring:
             provider: keycloak
         provider:
           keycloak:
-            issuer-uri: http://localhost:8080/realms/bank-realm
+            authorization-uri: http://localhost:8080/realms/bank-realm/protocol/openid-connect/auth
+            token-uri: http://keycloak:8080/realms/bank-realm/protocol/openid-connect/token
+            jwk-set-uri: http://keycloak:8080/realms/bank-realm/protocol/openid-connect/certs
