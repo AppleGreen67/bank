@@ -28,45 +28,45 @@ public class AccountStub {
             new AccountDto("sidorov", "Сидоров Сидор")
     );
 
-    public String getByLogin(String login) {
-        return accounts.stream()
-                .filter(account -> account.login().equals(login))
-                .map(AccountDto::name)
-                .findFirst()
-                .get();
-    }
+//    public String getByLogin(String login) {
+//        return accounts.stream()
+//                .filter(account -> account.login().equals(login))
+//                .map(AccountDto::name)
+//                .findFirst()
+//                .get();
+//    }
 
-    public void setNameAndBirthdate(String name, LocalDate birthdate) {
-        this.name = name;
-        this.birthdate = birthdate;
-    }
+//    public void setNameAndBirthdate(String name, LocalDate birthdate) {
+//        this.name = name;
+//        this.birthdate = birthdate;
+//    }
+//
+//    public void editCash(Model model, int value, CashAction action) {
+//        if (action == CashAction.GET && sum < value) {
+//            fillModel(model, List.of("Недостаточно средств на счету"), null);
+//        } else {
+//            sum = action == CashAction.GET ? sum - value : sum + value;
+//            fillModel(model, null, action == CashAction.GET ? "Снято %d руб".formatted(value) : "Положено %d руб".formatted(value));
+//        }
+//    }
 
-    public void editCash(Model model, int value, CashAction action) {
-        if (action == CashAction.GET && sum < value) {
-            fillModel(model, List.of("Недостаточно средств на счету"), null);
-        } else {
-            sum = action == CashAction.GET ? sum - value : sum + value;
-            fillModel(model, null, action == CashAction.GET ? "Снято %d руб".formatted(value) : "Положено %d руб".formatted(value));
-        }
-    }
+//    public String transfer(Model model, @RequestParam("value") int value, @RequestParam("login") String login) {
+//        if (sum < value) {
+//            fillModel(model, List.of("Недостаточно средств на счету"), null);
+//        } else {
+//            sum = sum - value;
+//            fillModel(model, null, "Успешно переведено %d руб клиенту %s".formatted(value, getByLogin(login)));
+//        }
+//
+//        return "main";
+//    }
 
-    public String transfer(Model model, @RequestParam("value") int value, @RequestParam("login") String login) {
-        if (sum < value) {
-            fillModel(model, List.of("Недостаточно средств на счету"), null);
-        } else {
-            sum = sum - value;
-            fillModel(model, null, "Успешно переведено %d руб клиенту %s".formatted(value, getByLogin(login)));
-        }
-
-        return "main";
-    }
-
-    public void fillModel(Model model, @Nullable List<String> errors, @Nullable String info) {
-        model.addAttribute("name", name);
-        model.addAttribute("birthdate", birthdate.format(DateTimeFormatter.ISO_DATE));
-        model.addAttribute("sum", sum);
-        model.addAttribute("accounts", accounts);
-        model.addAttribute("errors", errors);
-        model.addAttribute("info", info);
-    }
+//    public void fillModel(Model model, @Nullable List<String> errors, @Nullable String info) {
+//        model.addAttribute("name", name);
+//        model.addAttribute("birthdate", birthdate.format(DateTimeFormatter.ISO_DATE));
+//        model.addAttribute("sum", sum);
+//        model.addAttribute("accounts", accounts);
+//        model.addAttribute("errors", errors);
+//        model.addAttribute("info", info);
+//    }
 }

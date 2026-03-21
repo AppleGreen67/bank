@@ -14,7 +14,7 @@ public class SumService {
     }
 
     @Transactional
-    public Integer updateSum(Integer value, String action, String login) {
+    public Integer updateSum(String login, Integer value, String action) {
         Account account = accountRepository.findByLogin(login);
 
         if ("GET".equals(action) && account.getAmount() < value) {

@@ -7,6 +7,7 @@ COPY pom.xml .
 COPY accounts/pom.xml accounts/
 COPY bank-front-app/pom.xml bank-front-app/
 COPY cash/pom.xml cash/
+COPY transfer/pom.xml transfer/
 
 COPY gateway/pom.xml gateway/
 

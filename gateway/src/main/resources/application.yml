@@ -28,6 +28,12 @@ spring:
                 - Path=/cash/**
               filters:
                 - name: JwtTokenRelay
+            - id: transfer-service
+              uri: http://transfer:8086
+              predicates:
+                - Path=/transfer/**
+              filters:
+                - name: JwtTokenRelay
 
 management:
   endpoints:

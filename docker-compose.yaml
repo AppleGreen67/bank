@@ -64,6 +64,20 @@ services:
       KEYCLOAK_INTERNAL_URL: http://keycloak:8080
       KEYCLOAK_EXTERNAL_URL: http://localhost:8080
 
+  transfer:
+    container_name: transfer_c
+    build:
+      context: .
+      dockerfile: transfer/Dockerfile
+    restart: always
+    ports:
+      - "8086:8086"
+    networks:
+      - app-network
+    environment:
+      KEYCLOAK_INTERNAL_URL: http://keycloak:8080
+      KEYCLOAK_EXTERNAL_URL: http://localhost:8080
+
   postgres:
     image: postgres:15-alpine
     container_name: postgres

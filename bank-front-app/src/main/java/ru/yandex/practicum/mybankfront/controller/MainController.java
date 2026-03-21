@@ -12,6 +12,7 @@ import ru.yandex.practicum.mybankfront.controller.stub.AccountStub;
 import ru.yandex.practicum.mybankfront.service.AccountsService;
 import ru.yandex.practicum.mybankfront.service.CashService;
 import ru.yandex.practicum.mybankfront.service.ModelService;
+import ru.yandex.practicum.mybankfront.service.TransferService;
 import ru.yandex.server.domain.UserAccount;
 import ru.yandex.server.domain.UserAccountSmall;
 
@@ -49,6 +50,8 @@ public class MainController {
     private AccountsService accountsService;
     @Autowired
     private CashService cashService;
+    @Autowired
+    private TransferService transferService;
     @Autowired
     private ModelService modelService;
 
@@ -119,7 +122,7 @@ public class MainController {
 
         UserAccount account = accountsService.getAccount();
         List<UserAccountSmall> accounts = accountsService.getAccounts();
-        ModelDto modelDto = modelService.createModel(account, accounts, updateCashResult, value, action);
+        ModelDto modelDto = modelService.createModelForUpdateCash(account, accounts, updateCashResult, value, action);
 
         modelService.fillModel(model, modelDto);
 
@@ -138,13 +141,14 @@ public class MainController {
      * 2. login - логин пользователя получателя
      */
     @PostMapping("/transfer")
-    public String transfer(
-            Model model,
-            @RequestParam("value") int value,
-            @RequestParam("login") String login
-    ) {
-        // TODO: Заменить на то, что описано в комментарии к методу
-        accountStub.transfer(model, value, login);
+    public String transfer(Model model, @RequestParam("value") int value, @RequestParam("login") String login) {
+        boolean transferResult = transferService.transfer(value, login);
+
+        UserAccount account = accountsService.getAccount();
+        List<UserAccountSmall> accounts = accountsService.getAccounts();
+        ModelDto modelDto = modelService.createModelForTransfer(account, accounts, transferResult, value, login);
+
+        modelService.fillModel(model, modelDto);
 
         return "main";
     }

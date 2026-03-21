@@ -1,13 +1,19 @@
 package ru.yandex.practicum.accounts.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import ru.yandex.practicum.accounts.service.AccountsService;
+import ru.yandex.practicum.accounts.service.SumService;
+import ru.yandex.practicum.accounts.service.TransferService;
+import ru.yandex.server.domain.CashRequest;
+import ru.yandex.server.domain.TransferRequest;
 import ru.yandex.server.domain.UserAccount;
 import ru.yandex.server.domain.UserAccountSmall;
 
@@ -17,9 +23,13 @@ import java.util.List;
 public class AccountsController {
 
     private final AccountsService accountService;
+    private final SumService sumService;
+    private final TransferService transferService;
 
-    public AccountsController(AccountsService accountService) {
+    public AccountsController(AccountsService accountService, SumService sumService, TransferService transferServiceService) {
         this.accountService = accountService;
+        this.sumService = sumService;
+        this.transferService = transferServiceService;
     }
 
     @GetMapping("/account")
@@ -52,6 +62,40 @@ public class AccountsController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body(updatedAccount);
+    }
+
+    @PostMapping("/account/{login}/change")
+    @PreAuthorize("hasRole('SERVICE') && hasAuthority('accounts.write')")
+    public ResponseEntity<Integer> updateSum(@PathVariable String login, @RequestBody CashRequest request,
+                                             JwtAuthenticationToken authentication) {
+        System.out.println("account login: " + login);
+        System.out.println("account summ: " + request.getSum());
+        System.out.println("account action: " + request.getAction());
+
+        Integer amount = sumService.updateSum(login, request.getSum(), request.getAction());
+
+        if (amount == null) {
+            System.out.println("ERROR: недостаточно средств пользователя по логину login=" + login);
+            return ResponseEntity.status(HttpStatus.PAYMENT_REQUIRED).build();
+        }
+        return ResponseEntity.ok().body(amount);
+    }
+
+    @PostMapping("/account/{login}/transfer")
+    @PreAuthorize("hasRole('SERVICE') && hasAuthority('accounts.write')")
+    public ResponseEntity<Integer> transfer(@PathVariable String login, @RequestBody TransferRequest request,
+                                             JwtAuthenticationToken authentication) {
+        System.out.println("account current login: " + login);
+        System.out.println("account summ: " + request.getSum());
+        System.out.println("account to login: " + request.getLogin());
+
+        Integer amount = transferService.transfer(login, request.getSum(), request.getLogin());
+
+        if (amount == null) {
+            System.out.println("ERROR: недостаточно средств пользователя по логину login=" + login);
+            return ResponseEntity.status(HttpStatus.PAYMENT_REQUIRED).build();
+        }
+        return ResponseEntity.ok().body(amount);
     }
 
     @GetMapping("/accounts")

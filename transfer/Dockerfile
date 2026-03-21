@@ -8,20 +8,20 @@ COPY openapi.yaml .
 COPY bank-front-app/pom.xml bank-front-app/
 COPY gateway/pom.xml gateway/
 COPY accounts/pom.xml accounts/
-COPY transfer/pom.xml transfer/
-
 COPY cash/pom.xml cash/
+
+COPY transfer/pom.xml transfer/
 
 RUN mvn dependency:go-offline -B
 
-COPY cash/src cash/src
+COPY transfer/src transfer/src
 
-RUN mvn clean package -pl cash
+RUN mvn clean package -pl transfer
 
 FROM eclipse-temurin:21-jre-alpine
 
-COPY --from=build /app/cash/target/*.jar cash.jar
+COPY --from=build /app/transfer/target/*.jar transfer.jar
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "cash.jar"]
+CMD ["java", "-jar", "transfer.jar"]

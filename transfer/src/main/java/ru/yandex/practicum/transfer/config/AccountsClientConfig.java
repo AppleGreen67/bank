@@ -1,0 +1,61 @@
+package ru.yandex.practicum.transfer.config;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProvider;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProviderBuilder;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
+import org.springframework.web.reactive.function.client.WebClient;
+
+@Configuration
+public class AccountsClientConfig {
+
+    @Bean
+    public OAuth2AuthorizedClientManager authorizedClientManager(ClientRegistrationRepository clientRegistrationRepository,
+                                                                 OAuth2AuthorizedClientService authorizedClientService) {
+        // Провайдер, который знает, как получать client_credentials токены
+        OAuth2AuthorizedClientProvider authorizedClientProvider =
+                OAuth2AuthorizedClientProviderBuilder.builder()
+                        .clientCredentials()
+                        .build();
+
+        // Manager, который связывает client registrations и storage токенов
+        AuthorizedClientServiceOAuth2AuthorizedClientManager manager =
+                new AuthorizedClientServiceOAuth2AuthorizedClientManager(
+                        clientRegistrationRepository,
+                        authorizedClientService
+                );
+
+        // Говорим менеджеру: для transfer-service используем client_credentials
+        manager.setAuthorizedClientProvider(authorizedClientProvider);
+        return manager;
+    }
+
+
+    @Bean
+    @LoadBalanced
+    public WebClient.Builder loadBalancedWebClientBuilder() {
+        return WebClient.builder();
+    }
+
+    @Bean
+    public WebClient accountsWebClient(WebClient.Builder builder,
+                                       OAuth2AuthorizedClientManager authorizedClientManager,
+                                       @Value("${bank.accounts.base-url}") String accountsServiceBaseUrl) {
+        ServletOAuth2AuthorizedClientExchangeFilterFunction oauth2 =
+                new ServletOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
+
+        oauth2.setDefaultClientRegistrationId("transfer-service");
+
+        return builder
+                .baseUrl(accountsServiceBaseUrl) // базовый URL accounts
+                .apply(oauth2.oauth2Configuration()) // подключаем OAuth2 фильтр
+                .build();
+    }
+}

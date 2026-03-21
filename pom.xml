@@ -24,6 +24,7 @@
         <module>accounts</module>
         <module>gateway</module>
         <module>cash</module>
+        <module>transfer</module>
     </modules>
 
 

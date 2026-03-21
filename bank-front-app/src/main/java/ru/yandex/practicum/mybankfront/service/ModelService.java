@@ -44,7 +44,8 @@ public class ModelService {
         return modelDto;
     }
 
-    public ModelDto createModel(UserAccount account, List<UserAccountSmall> accounts, boolean updateCashResult, int value, CashAction action) {
+    public ModelDto createModelForUpdateCash(UserAccount account, List<UserAccountSmall> accounts, boolean updateCashResult,
+                                             int value, CashAction action) {
         ModelDto modelDto = createModel(account, accounts);
 
         if (updateCashResult) {
@@ -54,6 +55,27 @@ public class ModelService {
         }
 
         return modelDto;
+    }
+
+    public ModelDto createModelForTransfer(UserAccount account, List<UserAccountSmall> accounts, boolean transferResult,
+                                           int value, String toLogin) {
+        ModelDto modelDto = createModel(account, accounts);
+
+        if (transferResult) {
+            modelDto.setMessage("Успешно переведено %d руб клиенту %s".formatted(value, getByLogin(accounts, toLogin)));
+        } else {
+            modelDto.setErrors(List.of("Недостаточно средств на счету"));
+        }
+
+        return modelDto;
+    }
+
+    public String getByLogin(List<UserAccountSmall> accounts, String toLogin) {
+        return accounts.stream()
+                .filter(account -> account.getLogin().equals(toLogin))
+                .map(UserAccountSmall::getName)
+                .findFirst()
+                .get();
     }
 
     public void fillModel(Model model, ModelDto modelDto) {
