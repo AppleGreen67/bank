@@ -1,6 +1,7 @@
 package ru.yandex.practicum.cash.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
@@ -48,6 +49,13 @@ public class AccountsClientConfig {
         return manager;
     }
 
+
+    @Bean
+    @LoadBalanced
+    public WebClient.Builder loadBalancedWebClientBuilder() {
+        return WebClient.builder();
+    }
+
     /**
      * WebClient для запросов transfer-service → accounts.
      * <p>
@@ -57,9 +65,9 @@ public class AccountsClientConfig {
      * - вызывающий код не должен думать о токенах вручную.
      */
     @Bean
-    public WebClient accountsWebClient(
-            OAuth2AuthorizedClientManager authorizedClientManager,
-            @Value("${bank.accounts.base-url}") String accountsServiceBaseUrl
+    public WebClient accountsWebClient(WebClient.Builder builder,
+                                       OAuth2AuthorizedClientManager authorizedClientManager,
+                                       @Value("${bank.accounts.base-url}") String accountsServiceBaseUrl
     ) {
         // Фильтр, который автоматически:
         //  - получает сервисный access token (client_credentials),
@@ -72,7 +80,9 @@ public class AccountsClientConfig {
         // Именно этот клиент будет использоваться для получения токена.
         oauth2.setDefaultClientRegistrationId("transfer-service");
 
-        return WebClient.builder()
+        System.out.println("base-url: " + accountsServiceBaseUrl);
+
+        return builder
                 .baseUrl(accountsServiceBaseUrl) // базовый URL accounts
                 .apply(oauth2.oauth2Configuration()) // подключаем OAuth2 фильтр
                 .build();
