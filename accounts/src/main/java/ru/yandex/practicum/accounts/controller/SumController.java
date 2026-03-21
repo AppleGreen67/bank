@@ -2,6 +2,7 @@ package ru.yandex.practicum.accounts.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ public class SumController {
     }
 
     @PostMapping("{login}/change")
+    @PreAuthorize("hasRole('SERVICE') && hasAuthority('accounts.write')")
     public ResponseEntity<Integer> updateSum(@PathVariable String login, @RequestBody CashRequest request, JwtAuthenticationToken authentication) {
         System.out.println("login: " + login);
         System.out.println("summ: " + request.getSum());

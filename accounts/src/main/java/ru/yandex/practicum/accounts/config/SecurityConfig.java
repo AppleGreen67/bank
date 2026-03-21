@@ -61,7 +61,6 @@ public class SecurityConfig {
      * - добавляем authority "transfer.write" (для hasAuthority)
      */
     private Collection<GrantedAuthority> extractAuthorities(Jwt jwt) {
-
         Map<String, Object> realmAccess = jwt.getClaim("realm_access");
         if (realmAccess == null) {
             return Collections.emptyList();
@@ -87,6 +86,9 @@ public class SecurityConfig {
         // Добавляем кастомное право для бизнес-логики
         if (roles.contains("TRANSFER_WRITE")) {
             authorities.add(new SimpleGrantedAuthority("transfer.write"));
+        }
+        if (roles.contains("ACCOUNTS_WRITE")) {
+            authorities.add(new SimpleGrantedAuthority("accounts.write"));
         }
 
         return authorities;

@@ -1,6 +1,7 @@
 package ru.yandex.practicum.cash.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ public class CashController {
     }
 
     @PostMapping("/cash")
+    @PreAuthorize("hasRole('USER') && hasAuthority('transfer.write')")
     public ResponseEntity<Integer> cashPost(@RequestBody CashRequest request, JwtAuthenticationToken authentication) {
         String login = authentication.getToken().getClaimAsString("preferred_username");
         System.out.println("login: " + login);
