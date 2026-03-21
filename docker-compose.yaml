@@ -78,6 +78,20 @@ services:
       KEYCLOAK_INTERNAL_URL: http://keycloak:8080
       KEYCLOAK_EXTERNAL_URL: http://localhost:8080
 
+  notification:
+    container_name: notification_c
+    build:
+      context: .
+      dockerfile: notification/Dockerfile
+    restart: always
+    ports:
+      - "8087:8087"
+    networks:
+      - app-network
+    environment:
+      KEYCLOAK_INTERNAL_URL: http://keycloak:8080
+      KEYCLOAK_EXTERNAL_URL: http://localhost:8080
+
   postgres:
     image: postgres:15-alpine
     container_name: postgres

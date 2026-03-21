@@ -44,6 +44,5 @@ management:
 logging:
   level:
     root: INFO
-    ru.practicum.bank.gateway: DEBUG
     org.springframework.cloud.gateway: DEBUG
     org.springframework.security: DEBUG

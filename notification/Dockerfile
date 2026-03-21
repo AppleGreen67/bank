@@ -7,22 +7,22 @@ COPY openapi.yaml .
 
 COPY bank-front-app/pom.xml bank-front-app/
 COPY gateway/pom.xml gateway/
+COPY accounts/pom.xml accounts/
 COPY cash/pom.xml cash/
 COPY transfer/pom.xml transfer/
-COPY notification/pom.xml notification/
 
-COPY accounts/pom.xml accounts/
+COPY notification/pom.xml notification/
 
 RUN mvn dependency:go-offline -B
 
-COPY accounts/src accounts/src
+COPY notification/src notification/src
 
-RUN mvn clean package -pl accounts
+RUN mvn clean package -pl notification
 
 FROM eclipse-temurin:21-jre-alpine
 
-COPY --from=build /app/accounts/target/*.jar accounts.jar
+COPY --from=build /app/notification/target/*.jar notification.jar
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "accounts.jar"]
+CMD ["java", "-jar", "notification.jar"]

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.yandex.practicum.accounts.service.AccountsService;
+import ru.yandex.practicum.accounts.service.NotificationService;
 import ru.yandex.practicum.accounts.service.SumService;
 import ru.yandex.practicum.accounts.service.TransferService;
 import ru.yandex.server.domain.CashRequest;
@@ -24,11 +25,13 @@ public class AccountController {
     private final AccountsService accountService;
     private final SumService sumService;
     private final TransferService transferService;
+    private final NotificationService notificationService;
 
-    public AccountController(AccountsService accountService, SumService sumService, TransferService transferServiceService) {
+    public AccountController(AccountsService accountService, SumService sumService, TransferService transferService, NotificationService notificationService) {
         this.accountService = accountService;
         this.sumService = sumService;
-        this.transferService = transferServiceService;
+        this.transferService = transferService;
+        this.notificationService = notificationService;
     }
 
     @GetMapping
@@ -44,6 +47,8 @@ public class AccountController {
             System.out.println("ERROR: не нашли пользователя по логину login=" + login);
             return ResponseEntity.notFound().build();
         }
+
+        notificationService.sendMessage(login);
         return ResponseEntity.ok().body(userAccount);
     }
 

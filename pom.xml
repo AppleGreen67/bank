@@ -25,6 +25,7 @@
         <module>gateway</module>
         <module>cash</module>
         <module>transfer</module>
+        <module>notification</module>
     </modules>
 
 

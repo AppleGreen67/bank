@@ -9,7 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>accounts</artifactId>
+    <artifactId>notification</artifactId>
     <packaging>jar</packaging>
 
     <properties>
@@ -52,22 +52,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>2.8.13</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openapitools</groupId>
-            <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.2.6</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-consul-discovery</artifactId>
             <version>4.3.0</version>
@@ -79,9 +63,14 @@
         </dependency>
 
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.8.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>0.2.6</version>
         </dependency>
 
         <dependency>
@@ -105,8 +94,6 @@
                         <configuration>
                             <inputSpec>${basedir}/../openapi.yaml</inputSpec>
                             <generatorName>spring</generatorName>
-                            <apiPackage>ru.yandex.practicum.server.api</apiPackage>
-                            <invokerPackage>ru.yandex.server</invokerPackage>
                             <modelPackage>ru.yandex.server.domain</modelPackage>
                             <configOptions>
                                 <useSpringBoot3>true</useSpringBoot3>
