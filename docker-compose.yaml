@@ -14,6 +14,7 @@ services:
     environment:
       KEYCLOAK_INTERNAL_URL: http://keycloak:8080
       KEYCLOAK_EXTERNAL_URL: http://localhost:8080
+      KEYCLOAK_SECRET: ${ENV_KEYCLOAK_SECRET}
 
   accounts:
     container_name: accounts_c
@@ -30,6 +31,7 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       KEYCLOAK_INTERNAL_URL: http://keycloak:8080
       KEYCLOAK_EXTERNAL_URL: http://localhost:8080
+      KEYCLOAK_SECRET: ${ENV_KEYCLOAK_SECRET}
     depends_on:
       postgres:
         condition: service_healthy
@@ -63,6 +65,7 @@ services:
     environment:
       KEYCLOAK_INTERNAL_URL: http://keycloak:8080
       KEYCLOAK_EXTERNAL_URL: http://localhost:8080
+      KEYCLOAK_SECRET: ${ENV_KEYCLOAK_SECRET}
 
   transfer:
     container_name: transfer_c
@@ -77,6 +80,7 @@ services:
     environment:
       KEYCLOAK_INTERNAL_URL: http://keycloak:8080
       KEYCLOAK_EXTERNAL_URL: http://localhost:8080
+      KEYCLOAK_SECRET: ${ENV_KEYCLOAK_SECRET}
 
   notification:
     container_name: notification_c
@@ -91,6 +95,7 @@ services:
     environment:
       KEYCLOAK_INTERNAL_URL: http://keycloak:8080
       KEYCLOAK_EXTERNAL_URL: http://localhost:8080
+      KEYCLOAK_SECRET: ${ENV_KEYCLOAK_SECRET}
 
   postgres:
     image: postgres:15-alpine
