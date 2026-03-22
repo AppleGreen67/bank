@@ -76,8 +76,10 @@ public class AccountController {
 
     @PostMapping("/{login}/change")
     @PreAuthorize("hasRole('SERVICE') && hasAuthority('accounts.write')")
-    public ResponseEntity<Integer> updateSum(@PathVariable String login, @RequestBody CashRequest request,
+    public ResponseEntity<Integer> change(@PathVariable String login, @RequestBody CashRequest request,
                                              JwtAuthenticationToken authentication) {
+
+        System.out.println("changechangechangechangechangechangechange");
 
         notificationService.sendMessage("Запрос изменения счета аккаунта " + login, false);
 

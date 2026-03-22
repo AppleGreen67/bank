@@ -53,6 +53,7 @@ public abstract class BaseAccountsContractTest {
         userAccount.setSum(1);
         when(accountService.getAccount(testLogin)).thenReturn(userAccount);
 
+        when(sumService.updateSum(eq(testLogin), any(), any())).thenReturn(15);
 
         when(transferService.transfer(eq(testLogin), any(), any())).thenReturn(1);
 

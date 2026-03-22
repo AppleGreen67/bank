@@ -78,7 +78,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserAccount'
+              $ref: '#/components/schemas/CashRequest'
       responses:
         '200':
           description: Успешный ответ
@@ -116,7 +116,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserAccount'
+              $ref: '#/components/schemas/TransferRequest'
       responses:
         '200':
           description: Успешный ответ
