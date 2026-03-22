@@ -14,7 +14,7 @@ import org.springframework.security.oauth2.client.web.reactive.function.client.S
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
-public class AccountsClientConfig {
+public class ClientConfig {
 
     @Bean
     public OAuth2AuthorizedClientManager authorizedClientManager(ClientRegistrationRepository clientRegistrationRepository,
@@ -45,16 +45,13 @@ public class AccountsClientConfig {
     }
 
     @Bean
-    public WebClient accountsWebClient(WebClient.Builder builder,
-                                       OAuth2AuthorizedClientManager authorizedClientManager,
-                                       @Value("${bank.accounts.base-url}") String accountsServiceBaseUrl) {
+    public WebClient accountsWebClient(WebClient.Builder builder, OAuth2AuthorizedClientManager authorizedClientManager) {
         ServletOAuth2AuthorizedClientExchangeFilterFunction oauth2 =
                 new ServletOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
 
         oauth2.setDefaultClientRegistrationId("transfer-service");
 
         return builder
-                .baseUrl(accountsServiceBaseUrl) // базовый URL accounts
                 .apply(oauth2.oauth2Configuration()) // подключаем OAuth2 фильтр
                 .build();
     }
