@@ -36,16 +36,13 @@ public class NotificationsClientConfig {
     }
 
     @Bean
-    public WebClient notificationWebClient(WebClient.Builder builder, OAuth2AuthorizedClientManager authorizedClientManager,
-                                           @Value("${bank.notification.base-url}") String accountsServiceBaseUrl) {
-
+    public WebClient notificationWebClient(WebClient.Builder builder, OAuth2AuthorizedClientManager authorizedClientManager) {
         ServletOAuth2AuthorizedClientExchangeFilterFunction oauth2 =
                 new ServletOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
 
         oauth2.setDefaultClientRegistrationId("transfer-service");
 
         return builder
-                .baseUrl(accountsServiceBaseUrl)
                 .apply(oauth2.oauth2Configuration())
                 .build();
     }

@@ -36,35 +36,38 @@ public class AccountController {
 
     @GetMapping
     @PreAuthorize("hasRole('USER') && hasAuthority('transfer.write')")
-    public ResponseEntity<UserAccount> accountGet(JwtAuthenticationToken authentication) {
-
+    public ResponseEntity<UserAccount> getAccount(JwtAuthenticationToken authentication) {
         String login = authentication.getToken().getClaimAsString("preferred_username");
-        System.out.println("login: " + login);
+
+        notificationService.sendMessage("Запрос аккаунта " + login, false);
 
         UserAccount userAccount = accountService.getAccount(login);
 
         if (userAccount == null) {
-            System.out.println("ERROR: не нашли пользователя по логину login=" + login);
+            notificationService.sendMessage("Аккаунт " + login + " не найден", true);
             return ResponseEntity.notFound().build();
         }
 
-        notificationService.sendMessage(login);
+        notificationService.sendMessage("Аккаунт " + login + " найден", false);
         return ResponseEntity.ok().body(userAccount);
     }
 
     @PostMapping
     @PreAuthorize("hasRole('USER') && hasAuthority('transfer.write')")
-    public ResponseEntity<UserAccount> accountPost(@RequestBody UserAccount userAccount, JwtAuthenticationToken authentication) {
+    public ResponseEntity<UserAccount> updateAccount(@RequestBody UserAccount userAccount, JwtAuthenticationToken authentication) {
 
         String login = authentication.getToken().getClaimAsString("preferred_username");
-        System.out.println("login: " + login);
+
+        notificationService.sendMessage("Запрос обновления аккаунта " + login, false);
 
         UserAccount updatedAccount = accountService.updateAccount(login, userAccount);
 
         if (updatedAccount == null) {
-            System.out.println("ERROR: не нашли пользователя по логину login=" + login);
+            notificationService.sendMessage("Ошибка обновления аккаунта " + login, true);
             return ResponseEntity.notFound().build();
         }
+
+        notificationService.sendMessage("Аккаунт " + login + " успешно обновлен", false);
         return ResponseEntity.ok().body(updatedAccount);
     }
 
@@ -72,33 +75,34 @@ public class AccountController {
     @PreAuthorize("hasRole('SERVICE') && hasAuthority('accounts.write')")
     public ResponseEntity<Integer> updateSum(@PathVariable String login, @RequestBody CashRequest request,
                                              JwtAuthenticationToken authentication) {
-        System.out.println("account login: " + login);
-        System.out.println("account summ: " + request.getSum());
-        System.out.println("account action: " + request.getAction());
+
+        notificationService.sendMessage("Запрос изменения счета аккаунта " + login, false);
 
         Integer amount = sumService.updateSum(login, request.getSum(), request.getAction());
 
         if (amount == null) {
-            System.out.println("ERROR: недостаточно средств пользователя по логину login=" + login);
+            notificationService.sendMessage("Ошибка изменения счета аккаунта " + login, true);
             return ResponseEntity.status(HttpStatus.PAYMENT_REQUIRED).build();
         }
+
+        notificationService.sendMessage("Счет аккаунта " + login + " успешно обновлен", false);
         return ResponseEntity.ok().body(amount);
     }
 
     @PostMapping("/{login}/transfer")
     @PreAuthorize("hasRole('SERVICE') && hasAuthority('accounts.write')")
     public ResponseEntity<Integer> transfer(@PathVariable String login, @RequestBody TransferRequest request,
-                                             JwtAuthenticationToken authentication) {
-        System.out.println("account current login: " + login);
-        System.out.println("account summ: " + request.getSum());
-        System.out.println("account to login: " + request.getLogin());
+                                            JwtAuthenticationToken authentication) {
+        notificationService.sendMessage("Запрос на перевод средств с аккаунта " + login + " аккаунту " + request.getLogin(), false);
 
         Integer amount = transferService.transfer(login, request.getSum(), request.getLogin());
 
         if (amount == null) {
-            System.out.println("ERROR: недостаточно средств пользователя по логину login=" + login);
+            notificationService.sendMessage("Ошибка перевода средств с аккаунта " + login + " аккаунту " + request.getLogin(), true);
             return ResponseEntity.status(HttpStatus.PAYMENT_REQUIRED).build();
         }
+
+        notificationService.sendMessage("Перевод средств с аккаунта " + login + " аккаунту " + request.getLogin() + " успешно проведен", false);
         return ResponseEntity.ok().body(amount);
     }
 }

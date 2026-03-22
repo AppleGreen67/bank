@@ -1,27 +1,25 @@
 package ru.yandex.practicum.accounts.client;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import ru.yandex.server.domain.CashRequest;
 import ru.yandex.server.domain.NotifyMessage;
 
 @Component
 public class NotificationClient {
     private final WebClient notificationWebClient;
 
-    public NotificationClient(WebClient accountsWebClient) {
-        this.notificationWebClient = accountsWebClient;
+    @Value("${bank.notification.base-url}")
+    private String baseUrl;
+
+    public NotificationClient(WebClient notificationWebClient) {
+        this.notificationWebClient = notificationWebClient;
     }
 
-    public void sendMessage(String login) {
-        NotifyMessage notifyMessage = new NotifyMessage();
-        notifyMessage.setLogin(login);
-        notifyMessage.setMessage("I'm message");
-        notifyMessage.setError(false);
-
+    public void sendMessage(NotifyMessage notifyMessage) {
         notificationWebClient
                 .post()
-                .uri("/notify")
+                .uri(baseUrl + "/notify")
                 .bodyValue(notifyMessage)
                 .retrieve()
                 .toBodilessEntity()

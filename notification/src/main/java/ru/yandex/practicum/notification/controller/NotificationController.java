@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.yandex.practicum.notification.service.NotificationService;
 import ru.yandex.server.domain.NotifyMessage;
 
 @RestController
@@ -16,11 +17,16 @@ import ru.yandex.server.domain.NotifyMessage;
 public class NotificationController {
     private static final Logger LOGGER = LoggerFactory.getLogger(NotificationController.class.getName());
 
+    private final NotificationService notificationService;
+
+    public NotificationController(NotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
+
     @PostMapping
     @PreAuthorize("hasAuthority('notifications')")
     public ResponseEntity<Integer> notify(@RequestBody NotifyMessage request, JwtAuthenticationToken authentication) {
-
-        LOGGER.info("Hello {}", request);
+        notificationService.sendMessage(request);
 
         return ResponseEntity.ok().build();
     }
