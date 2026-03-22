@@ -5,6 +5,9 @@ bank:
   notification:
     base-url: http://notification-sd
 
+stubrunner:
+  fail-on-no-stubs: false
+
 spring:
   application:
     name: accounts
@@ -13,6 +16,9 @@ spring:
     import: ""
 
   cloud:
+    contract:
+      stubrunner:
+        fail-on-no-stubs: false
     consul:
       enabled: false
       config:

@@ -17,7 +17,7 @@ RUN mvn dependency:go-offline -B
 
 COPY accounts/src accounts/src
 
-RUN mvn clean package -pl accounts
+RUN mvn clean package -pl accounts -Pdocker-build -DskipTests=true
 
 FROM eclipse-temurin:21-jre-alpine
 

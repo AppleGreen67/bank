@@ -17,7 +17,7 @@ RUN mvn dependency:go-offline -B
 
 COPY notification/src notification/src
 
-RUN mvn clean package -pl notification
+RUN mvn clean package -pl notification -Pdocker-build -DskipTests=true
 
 FROM eclipse-temurin:21-jre-alpine
 

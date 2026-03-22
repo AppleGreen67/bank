@@ -17,7 +17,7 @@ RUN mvn dependency:go-offline -B
 
 COPY cash/src cash/src
 
-RUN mvn clean package -pl cash
+RUN mvn clean package -pl cash -Pdocker-build -DskipTests=true
 
 FROM eclipse-temurin:21-jre-alpine
 

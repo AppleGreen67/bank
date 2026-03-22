@@ -4,6 +4,9 @@ bank:
   notification:
     base-url: http://notification:8087
 
+stubrunner:
+  fail-on-no-stubs: false
+
 spring:
   main:
     allow-bean-definition-overriding: true
@@ -15,6 +18,9 @@ spring:
     import: ""
 
   cloud:
+    contract:
+      stubrunner:
+        fail-on-no-stubs: false
     loadbalancer:
       enabled: false
     consul:

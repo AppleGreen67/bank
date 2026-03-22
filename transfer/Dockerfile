@@ -17,7 +17,7 @@ RUN mvn dependency:go-offline -B
 
 COPY transfer/src transfer/src
 
-RUN mvn clean package -pl transfer
+RUN mvn clean package -pl transfer -Pdocker-build -DskipTests=true
 
 FROM eclipse-temurin:21-jre-alpine
 

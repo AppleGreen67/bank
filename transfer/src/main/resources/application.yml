@@ -39,7 +39,6 @@ spring:
             provider: keycloak
             client-id: transfer-service
             client-secret:  ${KEYCLOAK_SECRET}
-#            client-secret: ZY4fuQa2weoz2SV60g6kberJPoMX9rxd
             authorization-grant-type: client_credentials
         provider:
           keycloak:

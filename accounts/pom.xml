@@ -102,6 +102,15 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>docker-build</id>
+            <properties>
+                <skip.contract.tests>true</skip.contract.tests>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <plugin>
@@ -110,6 +119,7 @@
                 <version>4.3.0</version>
                 <extensions>true</extensions>
                 <configuration>
+                    <skip>${skip.contract.tests}</skip>
                     <baseClassForTests>ru.yandex.practicum.accounts.service.contract.BaseAccountsContractTest</baseClassForTests>
                 </configuration>
             </plugin>

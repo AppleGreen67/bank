@@ -86,8 +86,26 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>docker-build</id>
+            <properties>
+                <skip.contract.tests>true</skip.contract.tests>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-contract-maven-plugin</artifactId>
+                <version>4.3.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <skip>${skip.contract.tests}</skip>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>

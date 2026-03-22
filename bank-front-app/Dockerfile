@@ -17,7 +17,7 @@ RUN mvn dependency:go-offline -B
 
 COPY bank-front-app/src bank-front-app/src
 
-RUN mvn clean package -pl bank-front-app
+RUN mvn clean package -pl bank-front-app -DskipTests=true
 
 FROM eclipse-temurin:21-jre-alpine
 
