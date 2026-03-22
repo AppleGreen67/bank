@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.yandex.practicum.mybankfront.controller.dto.CashAction;
 import ru.yandex.practicum.mybankfront.controller.dto.ModelDto;
-import ru.yandex.practicum.mybankfront.controller.stub.AccountStub;
 import ru.yandex.practicum.mybankfront.exception.BankException;
 import ru.yandex.practicum.mybankfront.service.AccountsService;
 import ru.yandex.practicum.mybankfront.service.CashService;
@@ -43,9 +42,6 @@ import java.util.List;
  */
 @Controller
 public class MainController {
-    // TODO: Удалить заглушку, так как используется только для ознакомительных целей
-    @Autowired
-    private AccountStub accountStub;
 
     @Autowired
     private AccountsService accountsService;
