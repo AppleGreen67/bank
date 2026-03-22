@@ -7,28 +7,29 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import ru.yandex.practicum.cash.service.AccountsService;
+import ru.yandex.practicum.cash.service.NotificationService;
 import ru.yandex.server.domain.CashRequest;
 
 @Controller
 public class CashController {
     private final AccountsService accountsService;
+    private final NotificationService notificationService;
 
-    public CashController(AccountsService accountsService) {
+    public CashController(AccountsService accountsService, NotificationService notificationService) {
         this.accountsService = accountsService;
+        this.notificationService = notificationService;
     }
 
     @PostMapping("/cash")
     @PreAuthorize("hasRole('USER') && hasAuthority('transfer.write')")
     public ResponseEntity<Integer> cashPost(@RequestBody CashRequest request, JwtAuthenticationToken authentication) {
         String login = authentication.getToken().getClaimAsString("preferred_username");
-        System.out.println("login: " + login);
-        System.out.println("summ: " + request.getSum());
-        System.out.println("action: " + request.getAction());
+
+        notificationService.sendMessage("Запрос изменения счета аккаунта " + login, false);
 
         Integer sum = accountsService.updateAccount(request, login);
 
-        //todo обработка ошибок
-
+        notificationService.sendMessage("Счет аккаунта " + login + " успешно обновлен", false);
         return ResponseEntity.ok().body(sum);
     }
 }

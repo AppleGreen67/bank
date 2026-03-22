@@ -4,6 +4,8 @@ server:
 bank:
   accounts:
     base-url: http://accounts-sd
+  notification:
+    base-url: http://notification-sd
 
 spring:
   application:
