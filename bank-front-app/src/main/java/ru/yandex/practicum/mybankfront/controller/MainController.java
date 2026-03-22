@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.yandex.practicum.mybankfront.controller.dto.CashAction;
 import ru.yandex.practicum.mybankfront.controller.dto.ModelDto;
 import ru.yandex.practicum.mybankfront.controller.stub.AccountStub;
+import ru.yandex.practicum.mybankfront.exception.BankException;
 import ru.yandex.practicum.mybankfront.service.AccountsService;
 import ru.yandex.practicum.mybankfront.service.CashService;
 import ru.yandex.practicum.mybankfront.service.ModelService;
@@ -72,7 +73,7 @@ public class MainController {
      * 3. Текущего пользователя можно получить из контекста Security
      */
     @GetMapping("/account")
-    public String getAccount(Model model) {
+    public String getAccount(Model model) throws BankException {
         UserAccount account = accountsService.getAccount();
         List<UserAccountSmall> accounts = accountsService.getAccounts();
         ModelDto modelDto = modelService.createModel(account, accounts);
@@ -94,8 +95,7 @@ public class MainController {
      * 2. birthdate - дата рождения в формате YYYY-DD-MM
      */
     @PostMapping("/account")
-    public String editAccount(Model model, @RequestParam("name") String name,
-                              @RequestParam("birthdate") LocalDate birthdate) {
+    public String editAccount(Model model, @RequestParam("name") String name, @RequestParam("birthdate") LocalDate birthdate) throws BankException {
         UserAccount account = accountsService.updateAccount(name, birthdate);
         List<UserAccountSmall> accounts = accountsService.getAccounts();
         ModelDto modelDto = modelService.createModel(account, accounts);
@@ -117,7 +117,7 @@ public class MainController {
      * 2. action - GET (снять), PUT (пополнить)
      */
     @PostMapping("/cash")
-    public String editCash(Model model, @RequestParam("value") int value, @RequestParam("action") CashAction action) {
+    public String editCash(Model model, @RequestParam("value") int value, @RequestParam("action") CashAction action) throws BankException {
         boolean updateCashResult = cashService.updateCash(value, action);
 
         UserAccount account = accountsService.getAccount();
@@ -141,7 +141,7 @@ public class MainController {
      * 2. login - логин пользователя получателя
      */
     @PostMapping("/transfer")
-    public String transfer(Model model, @RequestParam("value") int value, @RequestParam("login") String login) {
+    public String transfer(Model model, @RequestParam("value") int value, @RequestParam("login") String login) throws BankException {
         boolean transferResult = transferService.transfer(value, login);
 
         UserAccount account = accountsService.getAccount();

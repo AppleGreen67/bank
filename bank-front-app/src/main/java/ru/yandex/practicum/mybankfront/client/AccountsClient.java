@@ -1,8 +1,11 @@
 package ru.yandex.practicum.mybankfront.client;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+import ru.yandex.practicum.mybankfront.exception.BankException;
 import ru.yandex.server.domain.UserAccount;
 import ru.yandex.server.domain.UserAccountSmall;
 
@@ -24,7 +27,10 @@ public class AccountsClient {
                 .get()
                 .uri(gatewayBaseUrl + "/account")
                 .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError,
+                        response -> Mono.error(new BankException("Ошибка получения аккаунта")))
                 .bodyToMono(UserAccount.class)
+                .onErrorMap(BankException.class, ex -> ex)
                 .block();
     }
 
@@ -34,7 +40,10 @@ public class AccountsClient {
                 .uri(gatewayBaseUrl + "/account")
                 .bodyValue(updatedAccount)
                 .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError,
+                        response -> Mono.error(new BankException("Ошибка обновления аккаунта")))
                 .bodyToMono(UserAccount.class)
+                .onErrorMap(BankException.class, ex -> ex)
                 .block();
     }
 
@@ -43,7 +52,10 @@ public class AccountsClient {
                 .get()
                 .uri(gatewayBaseUrl + "/accounts")
                 .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError,
+                        response -> Mono.error(new BankException("Ошибка получения аккаунтов")))
                 .bodyToFlux(UserAccountSmall.class)
+                .onErrorMap(BankException.class, ex -> ex)
                 .collectList().block();
     }
 }

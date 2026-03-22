@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import ru.yandex.practicum.mybankfront.controller.dto.AccountDto;
 import ru.yandex.practicum.mybankfront.controller.dto.CashAction;
 import ru.yandex.practicum.mybankfront.controller.dto.ModelDto;
+import ru.yandex.practicum.mybankfront.exception.BankException;
 import ru.yandex.server.domain.UserAccount;
 import ru.yandex.server.domain.UserAccountSmall;
 
@@ -21,7 +22,7 @@ public class ModelService {
             new AccountDto("sidorov", "Сидоров Сидор")
     );
 
-    public ModelDto createModel(UserAccount currentAccount, List<UserAccountSmall> accounts) {
+    public ModelDto createModel(UserAccount currentAccount, List<UserAccountSmall> accounts) throws BankException {
         ModelDto modelDto = new ModelDto();
         modelDto.setLogin(currentAccount.getLogin());
         modelDto.setName(currentAccount.getName());
@@ -32,7 +33,7 @@ public class ModelService {
         String currentUsername = ((OidcUser) authentication.getPrincipal()).getPreferredUsername();
 
         if (accounts.isEmpty()){
-            //todo ??
+            throw new BankException("Ошибка заполенения accounts в model");
         } else {
             List<AccountDto> accountDtoList = accounts.stream()
                     .filter(account -> !account.getLogin().equalsIgnoreCase(currentUsername))
@@ -45,7 +46,7 @@ public class ModelService {
     }
 
     public ModelDto createModelForUpdateCash(UserAccount account, List<UserAccountSmall> accounts, boolean updateCashResult,
-                                             int value, CashAction action) {
+                                             int value, CashAction action) throws BankException {
         ModelDto modelDto = createModel(account, accounts);
 
         if (updateCashResult) {
@@ -58,7 +59,7 @@ public class ModelService {
     }
 
     public ModelDto createModelForTransfer(UserAccount account, List<UserAccountSmall> accounts, boolean transferResult,
-                                           int value, String toLogin) {
+                                           int value, String toLogin) throws BankException {
         ModelDto modelDto = createModel(account, accounts);
 
         if (transferResult) {

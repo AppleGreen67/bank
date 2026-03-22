@@ -33,18 +33,4 @@ public class AccountsService {
         return client.updateAccount(userAccount);
     }
 
-//    public String submitTransfer(String fromAccountId, String toAccountId, BigDecimal amount) {
-//        TransferRequest request = new TransferRequest();
-//        request.setFromAccountId(fromAccountId);
-//        request.setToAccountId(toAccountId);
-//        request.setAmount(amount);
-//
-//        return gatewayWebClient
-//                .post()
-    //                .uri(gatewayBaseUrl + "/transfers")
-//                .bodyValue(request)
-//                .retrieve()
-//                .bodyToMono(String.class)
-//                .block();
-//    }
 }
