@@ -14,6 +14,7 @@ import ru.yandex.practicum.accounts.service.AccountsService;
 import ru.yandex.practicum.accounts.service.NotificationService;
 import ru.yandex.practicum.accounts.service.SumService;
 import ru.yandex.practicum.accounts.service.TransferService;
+import ru.yandex.practicum.accounts.service.UserService;
 import ru.yandex.server.domain.CashRequest;
 import ru.yandex.server.domain.TransferRequest;
 import ru.yandex.server.domain.UserAccount;
@@ -26,18 +27,21 @@ public class AccountController {
     private final SumService sumService;
     private final TransferService transferService;
     private final NotificationService notificationService;
+    private final UserService userService;
 
-    public AccountController(AccountsService accountService, SumService sumService, TransferService transferService, NotificationService notificationService) {
+    public AccountController(AccountsService accountService, SumService sumService, TransferService transferService,
+                             NotificationService notificationService, UserService userService) {
         this.accountService = accountService;
         this.sumService = sumService;
         this.transferService = transferService;
         this.notificationService = notificationService;
+        this.userService = userService;
     }
 
     @GetMapping
     @PreAuthorize("hasRole('USER') && hasAuthority('transfer.write')")
     public ResponseEntity<UserAccount> getAccount(JwtAuthenticationToken authentication) {
-        String login = authentication.getToken().getClaimAsString("preferred_username");
+        String login = userService.getCurrentLogin(authentication);
 
         notificationService.sendMessage("Запрос аккаунта " + login, false);
 
@@ -55,8 +59,7 @@ public class AccountController {
     @PostMapping
     @PreAuthorize("hasRole('USER') && hasAuthority('transfer.write')")
     public ResponseEntity<UserAccount> updateAccount(@RequestBody UserAccount userAccount, JwtAuthenticationToken authentication) {
-
-        String login = authentication.getToken().getClaimAsString("preferred_username");
+        String login = userService.getCurrentLogin(authentication);
 
         notificationService.sendMessage("Запрос обновления аккаунта " + login, false);
 
