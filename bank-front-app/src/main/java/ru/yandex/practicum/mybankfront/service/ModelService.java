@@ -13,6 +13,7 @@ import ru.yandex.server.domain.UserAccount;
 import ru.yandex.server.domain.UserAccountSmall;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class ModelService {
@@ -32,7 +33,7 @@ public class ModelService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUsername = ((OidcUser) authentication.getPrincipal()).getPreferredUsername();
 
-        if (accounts.isEmpty()){
+        if (accounts.isEmpty()) {
             throw new BankException("Ошибка заполенения accounts в model");
         } else {
             List<AccountDto> accountDtoList = accounts.stream()
@@ -63,7 +64,11 @@ public class ModelService {
         ModelDto modelDto = createModel(account, accounts);
 
         if (transferResult) {
-            modelDto.setMessage("Успешно переведено %d руб клиенту %s".formatted(value, getByLogin(accounts, toLogin)));
+            Optional<String> nameByLogin = getByLogin(accounts, toLogin);
+            if (nameByLogin.isEmpty())
+                throw new BankException("Не найден аккаунт по логину " + toLogin);
+
+            modelDto.setMessage("Успешно переведено %d руб клиенту %s".formatted(value, nameByLogin.get()));
         } else {
             modelDto.setErrors(List.of("Недостаточно средств на счету"));
         }
@@ -71,12 +76,11 @@ public class ModelService {
         return modelDto;
     }
 
-    public String getByLogin(List<UserAccountSmall> accounts, String toLogin) {
+    private Optional<String> getByLogin(List<UserAccountSmall> accounts, String toLogin) {
         return accounts.stream()
                 .filter(account -> account.getLogin().equals(toLogin))
                 .map(UserAccountSmall::getName)
-                .findFirst()
-                .get();
+                .findFirst();
     }
 
     public void fillModel(Model model, ModelDto modelDto) {
@@ -87,7 +91,6 @@ public class ModelService {
         model.addAttribute("errors", modelDto.getErrors());
         model.addAttribute("info", modelDto.getMessage());
     }
-
 
 
 }

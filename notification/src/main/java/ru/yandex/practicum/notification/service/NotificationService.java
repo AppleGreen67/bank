@@ -13,6 +13,6 @@ public class NotificationService {
         if (Boolean.FALSE.equals(request.getError()))
             LOGGER.info("{}", request.getMessage());
         else
-            LOGGER.info("{}", request.getMessage());
+            LOGGER.error("{}", request.getMessage());
     }
 }
