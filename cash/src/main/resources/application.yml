@@ -4,8 +4,10 @@ server:
 bank:
   accounts:
     base-url: http://accounts-sd
+    timeout: 4
   notification:
     base-url: http://notification-sd
+    timeout: 4
 
 spring:
   application:
@@ -43,3 +45,54 @@ spring:
         provider:
           keycloak:
             token-uri: ${KEYCLOAK_INTERNAL_URL}/realms/bank-realm/protocol/openid-connect/token
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      accountService:
+        # Порог срабатывания (процент неудачных вызовов)
+        failure-rate-threshold: 50
+        # Минимальное количество вызовов перед срабатыванием
+        minimum-number-of-calls: 10
+        # Длительность окна для подсчета вызовов
+        sliding-window-size: 10
+        # Тип окна (COUNT_BASED или TIME_BASED)
+        sliding-window-type: COUNT_BASED
+        # Время ожидания перед переходом из OPEN в HALF_OPEN
+        wait-duration-in-open-state: 10s
+        # Количество разрешенных вызовов в HALF_OPEN состоянии
+        permitted-number-of-calls-in-half-open-state: 5
+        # Таймаут для вызовов
+        slow-call-duration-threshold: 4s
+        # Порог медленных вызовов
+        slow-call-rate-threshold: 50
+        # Автоматический переход из HALF_OPEN в OPEN при определенном проценте неудач
+        automatic-transition-from-open-to-half-open-enabled: true
+      notificationService:
+        failure-rate-threshold: 50
+        minimum-number-of-calls: 10
+        sliding-window-size: 10
+        sliding-window-type: COUNT_BASED
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 5
+        slow-call-duration-threshold: 4s
+        slow-call-rate-threshold: 50
+        automatic-transition-from-open-to-half-open-enabled: true
+
+  timelimiter:
+    instances:
+      accountService:
+        timeout-duration: 5s
+      notificationService:
+        timeout-duration: 5s
+
+  retry:
+    instances:
+      secondApp:
+        max-attempts: 3
+        wait-duration: 1s
+        retry-exceptions:
+          - org.springframework.web.reactive.function.client.WebClientResponseException$ServiceUnavailable
+          - java.util.concurrent.TimeoutException
+        ignore-exceptions:
+          - java.lang.IllegalArgumentException

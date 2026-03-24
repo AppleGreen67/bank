@@ -9,6 +9,7 @@ logging:
 bank:
   notification:
     base-url: http://notification-sd
+    timeout: 4
 
 spring:
   application:
@@ -76,3 +77,33 @@ spring:
         provider:
           keycloak:
             token-uri: ${KEYCLOAK_INTERNAL_URL}/realms/bank-realm/protocol/openid-connect/token
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      notificationService:
+        failure-rate-threshold: 50
+        minimum-number-of-calls: 10
+        sliding-window-size: 10
+        sliding-window-type: COUNT_BASED
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 5
+        slow-call-duration-threshold: 4s
+        slow-call-rate-threshold: 50
+        automatic-transition-from-open-to-half-open-enabled: true
+
+  timelimiter:
+    instances:
+      notificationService:
+        timeout-duration: 5s
+
+  retry:
+    instances:
+      secondApp:
+        max-attempts: 3
+        wait-duration: 1s
+        retry-exceptions:
+          - org.springframework.web.reactive.function.client.WebClientResponseException$ServiceUnavailable
+          - java.util.concurrent.TimeoutException
+        ignore-exceptions:
+          - java.lang.IllegalArgumentException
