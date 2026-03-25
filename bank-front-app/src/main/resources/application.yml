@@ -1,0 +1,27 @@
+server:
+  port: 8084
+
+bank:
+  gateway:
+    base-url: http://gateway:8081
+
+spring:
+  application:
+    name: bank-front-app
+
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: bank-ui
+#            client-secret: ui-client-secret
+            authorization-grant-type: authorization_code
+            scope: openid, profile
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            provider: keycloak
+        provider:
+          keycloak:
+            authorization-uri: http://localhost:8080/realms/bank-realm/protocol/openid-connect/auth
+            token-uri: http://keycloak:8080/realms/bank-realm/protocol/openid-connect/token
+            jwk-set-uri: http://keycloak:8080/realms/bank-realm/protocol/openid-connect/certs

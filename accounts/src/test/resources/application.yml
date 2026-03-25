@@ -1,0 +1,59 @@
+server:
+  port: 8082
+
+bank:
+  notification:
+    base-url: http://notification-sd
+
+stubrunner:
+  fail-on-no-stubs: false
+
+spring:
+  application:
+    name: accounts
+
+  config:
+    import: ""
+
+  cloud:
+    contract:
+      stubrunner:
+        fail-on-no-stubs: false
+    consul:
+      enabled: false
+      config:
+        enabled: false
+      discovery:
+        enabled: false
+
+  datasource:
+    url: jdbc:h2:mem:usersdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: test
+    password: test
+
+  jpa:
+    show-sql: true
+
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:sql/data.sql
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/bank-realm
+          jwk-set-uri: http://keycloak:8080/realms/bank-realm/protocol/openid-connect/certs
+
+      client:
+        registration:
+          transfer-service:
+            provider: keycloak
+            client-id: transfer-service
+            client-secret: ${KEYCLOAK_SECRET}
+            authorization-grant-type: client_credentials
+        provider:
+          keycloak:
+            token-uri: http://keycloak:8080/realms/bank-realm/protocol/openid-connect/token
