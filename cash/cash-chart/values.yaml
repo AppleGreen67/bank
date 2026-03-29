@@ -1,0 +1,93 @@
+replicaCount: 1
+
+image:
+  repository: cash
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+podAnnotations: {}
+podLabels: {}
+podSecurityContext: {}
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8085
+
+keycloak:
+  external_url: http://localhost:30080
+  internal_url: http://keycloak:8080
+  secret: IGJCDgCRJT1RmRZCZep74YlAv83QlneY
+
+notification_url: http://notification-chart.default.svc.cluster.local
+accounts_url: http://accounts-chart.default.svc.cluster.local
+
+ingress:
+  enabled: false
+  className: "nginx"
+  annotations: {}
+  hosts:
+    - host: cash
+      paths:
+        - path: /cash
+          pathType: Prefix
+
+httpRoute:
+  enabled: false
+  annotations: {}
+  parentRefs:
+    - name: gateway
+      sectionName: http
+  hostnames:
+    - chart-example.local
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /headers
+
+resources: {}
+
+startupProbe:
+  initialDelaySeconds: 20
+  failureThreshold: 10
+  httpGet:
+    path: /actuator/health
+    port: 8085
+livenessProbe:
+  initialDelaySeconds: 20
+  failureThreshold: 10
+  httpGet:
+    path: /actuator/health
+    port: 8085
+readinessProbe:
+  initialDelaySeconds: 20
+  failureThreshold: 10
+  httpGet:
+    path: /actuator/health
+    port: 8085
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
+volumes: []
+volumeMounts: []
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
