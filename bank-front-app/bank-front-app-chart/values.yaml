@@ -1,0 +1,103 @@
+replicaCount: 1
+
+image:
+  repository: bank-front-app
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+keycloak:
+  auth_uri: localhost:30080
+  token_uri: keycloak:8080
+  jwk_uri: keycloak:8080
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: NodePort
+  port: 8084
+  targetPort: 8084
+  nodePort: 30084
+
+ingress:
+  enabled: true
+  className: "nginx"
+  hosts:
+    - host: bank-front-app
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+#app:
+#  name: bank-front-app
+#  port: 8084
+
+#keycloak:
+#  url: "http://keycloak.keycloak.svc.cluster.local"  # Внутренний адрес
+#  realm: "bank-realm"
+#  clientId: "bank-ui"
+#  clientSecret: ""
+
+httpRoute:
+  enabled: false
+  annotations: {}
+  parentRefs:
+  - name: gateway
+    sectionName: http
+  hostnames:
+  - chart-example.local
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /headers
+
+resources: {}
+
+startupProbe:
+  initialDelaySeconds: 20
+  failureThreshold: 10
+  httpGet:
+    path: /actuator/health
+    port: 8084
+livenessProbe:
+  initialDelaySeconds: 20
+  failureThreshold: 10
+  httpGet:
+    path: /actuator/health
+    port: 8084
+readinessProbe:
+  initialDelaySeconds: 20
+  failureThreshold: 10
+  httpGet:
+    path: /actuator/health
+    port: 8084
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
+volumes: []
+
+volumeMounts: []
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

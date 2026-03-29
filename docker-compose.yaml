@@ -6,6 +6,8 @@ services:
     build:
       context: .
       dockerfile: bank-front-app/Dockerfile
+    tags:
+      - bank-front-app:latest
     restart: always
     ports:
       - "8084:8084"
