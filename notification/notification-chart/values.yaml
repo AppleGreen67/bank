@@ -23,14 +23,14 @@ podSecurityContext: {}
 securityContext: {}
 
 service:
-  type: NodePort
-  port: 8087
+  type: ClusterIP
+  port: 80
   targetPort: 8087
 #  nodePort: 30087
 
 keycloak:
-  external_url: localhost:30080
-  internal_url: keycloak:8080
+  external_url: http://localhost:30080
+  internal_url: http://keycloak:8080
   secret: IGJCDgCRJT1RmRZCZep74YlAv83QlneY
 
 ingress:
