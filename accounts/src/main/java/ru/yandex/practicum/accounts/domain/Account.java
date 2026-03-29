@@ -10,7 +10,8 @@ import jakarta.persistence.Table;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "accounts", schema = "app_accounts")
+@Table(name = "accounts")
+//@Table(name = "accounts", schema = "app_accounts")
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
