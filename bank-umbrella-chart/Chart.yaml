@@ -1,0 +1,25 @@
+apiVersion: v2
+name: bank-umbrella-chart
+description: A Helm chart for Kubernetes
+
+#type: application
+
+version: 0.1.0
+
+#appVersion: "1.16.0"
+dependencies:
+  - name: bank-front-app-chart
+    version: "0.1.0"
+    repository: "file://../bank-front-app/bank-front-app-chart"
+  - name: accounts-chart
+    version: "0.1.0"
+    repository: "file://../accounts/accounts-chart"
+  - name: notification-chart
+    version: "0.1.0"
+    repository: "file://../notification/notification-chart"
+  - name: cash-chart
+    version: "0.1.0"
+    repository: "file://../cash/cash-chart"
+  - name: transfer-chart
+    version: "0.1.0"
+    repository: "file://../transfer/transfer-chart"

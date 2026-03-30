@@ -10,9 +10,9 @@ keycloak:
   token_uri: keycloak:8080
   jwk_uri: keycloak:8080
 
-accounts_url: http://accounts-chart.default.svc.cluster.local
-cash_url: http://cash.default.svc.cluster.local
-transfer_url: http://transfer.default.svc.cluster.local
+accounts_url: http://bank-accounts-chart.default.svc.cluster.local
+cash_url: http://bank-cash-chart.default.svc.cluster.local
+transfer_url: http://bank-transfer-chart.default.svc.cluster.local
 
 imagePullSecrets: []
 nameOverride: ""
