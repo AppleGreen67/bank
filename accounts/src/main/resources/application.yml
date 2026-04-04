@@ -63,8 +63,8 @@ spring:
           transfer-service:
             provider: keycloak
             client-id: transfer-service
-            client-secret: bQimy9NFoZnDk9S5QJNrG8zM7YEaZ2PV
-#            client-secret: ${KEYCLOAK_SECRET}
+#            client-secret: bQimy9NFoZnDk9S5QJNrG8zM7YEaZ2PV
+            client-secret: ${KEYCLOAK_SECRET}
             authorization-grant-type: client_credentials
             scope: openid
         provider:

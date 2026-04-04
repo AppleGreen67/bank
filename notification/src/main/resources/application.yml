@@ -34,6 +34,7 @@ spring:
             client-id: transfer-service
             client-secret:  ${KEYCLOAK_SECRET}
             authorization-grant-type: client_credentials
+            scope: openid
         provider:
           keycloak:
             token-uri: ${KEYCLOAK_INTERNAL_URL}/realms/bank-realm/protocol/openid-connect/token
@@ -42,6 +43,11 @@ logging:
   level:
     root: INFO
     ru.yandex.practicum.notification: INFO
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
+    org.springframework.security.oauth2.jwt: DEBUG
+    org.springframework.security.authentication: DEBUG
+    org.springframework.security.oauth2.client: DEBUG
 
 #  file:
 #    name: logs/notification.log
