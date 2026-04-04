@@ -2,14 +2,15 @@ server:
   port: 8084
 
 bank:
-#  gateway:
+  gateway:
+    base-url: ${GATEWAY_URL}
 #    base-url: http://gateway:8081
-  accounts:
-    base-url: ${ACCOUNTS_URL}
-  cash:
-    base-url: ${CASH_URL}
-  transfer:
-    base-url: ${TRANSFER_URL}
+#  accounts:
+#    base-url: ${ACCOUNTS_URL}
+#  cash:
+#    base-url: ${CASH_URL}
+#  transfer:
+#    base-url: ${TRANSFER_URL}
 
 spring:
   application:

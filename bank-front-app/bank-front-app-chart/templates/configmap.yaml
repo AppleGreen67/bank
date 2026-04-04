@@ -6,6 +6,7 @@ data:
   KC_AUTH_URI: {{ .Values.keycloak.auth_uri | quote }}
   KC_TOKEN_URI: {{ .Values.keycloak.token_uri | quote }}
   KC_JWK_URI: {{ .Values.keycloak.jwk_uri | quote }}
-  ACCOUNTS_URL: {{ .Values.accounts_url | quote }}
-  CASH_URL: {{ .Values.cash_url | quote }}
-  TRANSFER_URL: {{ .Values.transfer_url | quote }}
+#  ACCOUNTS_URL: {{ .Values.accounts_url | quote }}
+#  CASH_URL: {{ .Values.cash_url | quote }}
+#  TRANSFER_URL: {{ .Values.transfer_url | quote }}
+  GATEWAY_URL: {{ .Values.gateway_url | quote }}

@@ -14,7 +14,7 @@ public class TransferClient {
     private final String gatewayBaseUrl;
 
     public TransferClient(WebClient gatewayWebClient,
-                          @Value("${bank.transfer.base-url}") String gatewayBaseUrl) {
+                          @Value("${bank.gateway.base-url}") String gatewayBaseUrl) {
         this.gatewayWebClient = gatewayWebClient;
         this.gatewayBaseUrl = gatewayBaseUrl;
     }

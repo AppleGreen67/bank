@@ -23,3 +23,6 @@ dependencies:
   - name: transfer-chart
     version: "0.1.0"
     repository: "file://../transfer/transfer-chart"
+  - name: gateway-chart
+    version: "0.1.0"
+    repository: "file://../gateway/gateway-chart"

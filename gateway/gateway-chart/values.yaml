@@ -1,19 +1,17 @@
 replicaCount: 1
 
 image:
-  repository: bank-front-app
+  repository: gateway
   pullPolicy: IfNotPresent
   tag: "latest"
 
 keycloak:
-  auth_uri: http://keycloak
-  token_uri: http://keycloak:8080
-  jwk_uri: http://keycloak:8080
+  external_url: http://keycloak
+  internal_url: http://keycloak:8080
 
-gateway_url: http://bank-gateway-chart.default.svc.cluster.local
-#accounts_url: http://bank-accounts-chart.default.svc.cluster.local
-#cash_url: http://bank-cash-chart.default.svc.cluster.local
-#transfer_url: http://bank-transfer-chart.default.svc.cluster.local
+accounts_url: http://bank-accounts-chart.default.svc.cluster.local
+cash_url: http://bank-cash-chart.default.svc.cluster.local
+transfer_url: http://bank-transfer-chart.default.svc.cluster.local
 
 imagePullSecrets: []
 nameOverride: ""
@@ -34,19 +32,20 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 8084
-#  targetPort: 8084
-#  nodePort: 8084
+  port: 80
+  targetPort: 8081
 
-ingress:
-  enabled: true
-  className: "traefik"
-  hosts:
-    - host: bank.local
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
-  tls: []
+#ingress:
+#  enabled: false
+#  className: ""
+#  annotations: {}
+#  hosts:
+#    - host: chart-example.local
+#      paths:
+#        - path: /
+#          pathType: ImplementationSpecific
+#  tls: []
+
 
 httpRoute:
   enabled: false
@@ -69,19 +68,19 @@ startupProbe:
   failureThreshold: 10
   httpGet:
     path: /actuator/health
-    port: 8084
+    port: 8081
 livenessProbe:
   initialDelaySeconds: 20
   failureThreshold: 10
   httpGet:
     path: /actuator/health
-    port: 8084
+    port: 8081
 readinessProbe:
   initialDelaySeconds: 20
   failureThreshold: 10
   httpGet:
     path: /actuator/health
-    port: 8084
+    port: 8081
 
 autoscaling:
   enabled: false
@@ -90,7 +89,6 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
 
 volumes: []
-
 volumeMounts: []
 
 nodeSelector: {}
