@@ -5,7 +5,6 @@ metadata:
 data:
   KEYCLOAK_EXTERNAL_URL: {{ .Values.keycloak.external_url | quote }}
   KEYCLOAK_INTERNAL_URL: {{ .Values.keycloak.internal_url | quote }}
-  KC_SECRET: {{ .Values.keycloak.secret | quote }}
   NOTIFICATION_URL: {{ .Values.notification_url | quote }}
   SPRING_DATASOURCE_URL: jdbc:postgresql://postgres.default.svc.cluster.local:5432/accounts
   SPRING_DATASOURCE_USERNAME: myuser

@@ -63,6 +63,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "cash-chart.fullname" . }}-config
+            - secretRef:
+                name: {{ include "cash-chart.fullname" . }}-secret
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}

@@ -31,7 +31,6 @@ service:
 keycloak:
   external_url: http://keycloak
   internal_url: http://keycloak:8080
-  secret: bQimy9NFoZnDk9S5QJNrG8zM7YEaZ2PV
 
 #ingress:
 #  enabled: false

@@ -63,6 +63,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "notification-chart.fullname" . }}-config
+            - secretRef:
+                name: {{ include "notification-chart.fullname" . }}-secret
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
