@@ -5,8 +5,9 @@ metadata:
   annotations:
     # Важно: Говорим ingress-контроллеру пробросить исходный протокол (HTTP)
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+#    kubernetes.io/ingress.class: "nginx"
 spec:
-  ingressClassName: nginx  # Замените на ваш ingress класс
+  ingressClassName: traefik  # Замените на ваш ingress класс
   rules:
     - host: keycloak   # Замените на ваш домен или используйте nip.io
       http:

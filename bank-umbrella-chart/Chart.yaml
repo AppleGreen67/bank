@@ -14,12 +14,12 @@ dependencies:
   - name: accounts-chart
     version: "0.1.0"
     repository: "file://../accounts/accounts-chart"
-  - name: notification-chart
-    version: "0.1.0"
-    repository: "file://../notification/notification-chart"
-  - name: cash-chart
-    version: "0.1.0"
-    repository: "file://../cash/cash-chart"
-  - name: transfer-chart
-    version: "0.1.0"
-    repository: "file://../transfer/transfer-chart"
+#  - name: notification-chart
+#    version: "0.1.0"
+#    repository: "file://../notification/notification-chart"
+#  - name: cash-chart
+#    version: "0.1.0"
+#    repository: "file://../cash/cash-chart"
+#  - name: transfer-chart
+#    version: "0.1.0"
+#    repository: "file://../transfer/transfer-chart"

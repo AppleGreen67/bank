@@ -6,9 +6,9 @@ image:
   tag: "latest"
 
 keycloak:
-  auth_uri: keycloak:30080
-  token_uri: keycloak:8080
-  jwk_uri: keycloak:8080
+  auth_uri: http://keycloak
+  token_uri: http://keycloak:8080
+  jwk_uri: http://keycloak:8080
 
 accounts_url: http://bank-accounts-chart.default.svc.cluster.local
 cash_url: http://bank-cash-chart.default.svc.cluster.local
@@ -32,28 +32,20 @@ podSecurityContext: {}
 securityContext: {}
 
 service:
-  type: NodePort
+  type: ClusterIP
   port: 8084
-  targetPort: 8084
-  nodePort: 30084
+#  targetPort: 8084
+#  nodePort: 8084
 
 ingress:
   enabled: true
-  className: "nginx"
+  className: "traefik"
   hosts:
-    - host: bank-front-app
+    - host: bank.local
       paths:
         - path: /
           pathType: ImplementationSpecific
-#app:
-#  name: bank-front-app
-#  port: 8084
-
-#keycloak:
-#  url: "http://keycloak.keycloak.svc.cluster.local"  # Внутренний адрес
-#  realm: "bank-realm"
-#  clientId: "bank-ui"
-#  clientSecret: ""
+  tls: []
 
 httpRoute:
   enabled: false

@@ -12,8 +12,8 @@ service:
 #  nodePort: 30082
 
 keycloak:
-  external_url: http://keycloak.local:30080
-  internal_url: http://keycloak.local
+  external_url: http://keycloak
+  internal_url: http://keycloak:8080
   secret: bQimy9NFoZnDk9S5QJNrG8zM7YEaZ2PV
 
 notification_url: http://notification-chart.default.svc.cluster.local
@@ -35,15 +35,15 @@ podSecurityContext: {}
 
 securityContext: {}
 
-ingress:
-  enabled: false
-  className: "nginx"
-  annotations: {}
-  hosts:
-    - host: accounts
-      paths:
-        - path: /accounts
-          pathType: Prefix
+#ingress:
+#  enabled: false
+#  className: "traefik"
+#  annotations: {}
+#  hosts:
+#    - host: accounts
+#      paths:
+#        - path: /accounts
+#          pathType: Prefix
 
 httpRoute:
   enabled: false

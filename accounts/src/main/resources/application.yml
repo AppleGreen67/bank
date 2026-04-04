@@ -5,6 +5,9 @@ logging:
   level:
     org.springframework.security: DEBUG
     org.springframework.security.oauth2: DEBUG
+    org.springframework.security.oauth2.jwt: DEBUG
+    org.springframework.security.authentication: DEBUG
+    org.springframework.security.oauth2.client: DEBUG
 
 bank:
   notification:
@@ -50,10 +53,10 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-#          issuer-uri: ${KEYCLOAK_EXTERNAL_URL}/realms/bank-realm
-#          jwk-set-uri: ${KEYCLOAK_INTERNAL_URL}/realms/bank-realm/protocol/openid-connect/certs
-          issuer-uri: http://keycloak:30080/realms/bank-realm
-          jwk-set-uri: http://keycloak:8080/realms/bank-realm/protocol/openid-connect/certs
+          issuer-uri: ${KEYCLOAK_EXTERNAL_URL}/realms/bank-realm
+          jwk-set-uri: ${KEYCLOAK_INTERNAL_URL}/realms/bank-realm/protocol/openid-connect/certs
+#          issuer-uri: http://keycloak:30080/realms/bank-realm
+#          jwk-set-uri: http://keycloak:8080/realms/bank-realm/protocol/openid-connect/certs
 
       client:
         registration:
@@ -66,7 +69,8 @@ spring:
             scope: openid
         provider:
           keycloak:
-            token-uri: http://keycloak:8080/realms/bank-realm/protocol/openid-connect/token
+#            token-uri: http://keycloak:8080/realms/bank-realm/protocol/openid-connect/token
+            token-uri: ${KEYCLOAK_INTERNAL_URL}/realms/bank-realm/protocol/openid-connect/token
 
 resilience4j:
   circuitbreaker:

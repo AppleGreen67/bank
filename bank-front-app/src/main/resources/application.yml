@@ -31,6 +31,6 @@ spring:
 #            authorization-uri: http://localhost:8080/realms/bank-realm/protocol/openid-connect/auth
 #            token-uri: http://keycloak:8080/realms/bank-realm/protocol/openid-connect/token
 #            jwk-set-uri: http://keycloak:8080/realms/bank-realm/protocol/openid-connect/certs
-            authorization-uri: http://${KC_AUTH_URI}/realms/bank-realm/protocol/openid-connect/auth
-            token-uri: http://${KC_TOKEN_URI}/realms/bank-realm/protocol/openid-connect/token
-            jwk-set-uri: http://${KC_JWK_URI}/realms/bank-realm/protocol/openid-connect/certs
+            authorization-uri: ${KC_AUTH_URI}/realms/bank-realm/protocol/openid-connect/auth
+            token-uri: ${KC_TOKEN_URI}/realms/bank-realm/protocol/openid-connect/token
+            jwk-set-uri: ${KC_JWK_URI}/realms/bank-realm/protocol/openid-connect/certs
