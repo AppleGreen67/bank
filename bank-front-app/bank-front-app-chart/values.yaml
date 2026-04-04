@@ -6,7 +6,7 @@ image:
   tag: "latest"
 
 keycloak:
-  auth_uri: localhost:30080
+  auth_uri: keycloak:30080
   token_uri: keycloak:8080
   jwk_uri: keycloak:8080
 

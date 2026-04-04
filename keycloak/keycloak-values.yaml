@@ -20,12 +20,16 @@ postgresql:
 
 
 extraEnvVars:
+  - name: KEYCLOAK_LOG_LEVEL
+    value: DEBUG
   - name: KEYCLOAK_ENABLE_HTTPS
     value: "false"
   - name: KEYCLOAK_PRODUCTION
     value: "true"
   - name: KEYCLOAK_PROXY
     value: "edge"              # Режим "edge" означает, что шифрование только на прокси
+  - name: KC_HOSTNAME_STRICT
+    value: "false"
   - name: KC_HOSTNAME_STRICT_HTTPS
     value: "false"             # Разрешаем HTTP для hostname
   - name: KC_HTTP_ENABLED

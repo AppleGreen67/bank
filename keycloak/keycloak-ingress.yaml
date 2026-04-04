@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: nginx  # Замените на ваш ingress класс
   rules:
-    - host: keycloak.local   # Замените на ваш домен или используйте nip.io
+    - host: keycloak   # Замените на ваш домен или используйте nip.io
       http:
         paths:
           - path: /

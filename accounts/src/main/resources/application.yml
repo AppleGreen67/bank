@@ -50,19 +50,23 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${KEYCLOAK_EXTERNAL_URL}/realms/bank-realm
-          jwk-set-uri: ${KEYCLOAK_INTERNAL_URL}/realms/bank-realm/protocol/openid-connect/certs
+#          issuer-uri: ${KEYCLOAK_EXTERNAL_URL}/realms/bank-realm
+#          jwk-set-uri: ${KEYCLOAK_INTERNAL_URL}/realms/bank-realm/protocol/openid-connect/certs
+          issuer-uri: http://keycloak:30080/realms/bank-realm
+          jwk-set-uri: http://keycloak:8080/realms/bank-realm/protocol/openid-connect/certs
 
       client:
         registration:
           transfer-service:
             provider: keycloak
             client-id: transfer-service
-            client-secret: ${KEYCLOAK_SECRET}
+            client-secret: bQimy9NFoZnDk9S5QJNrG8zM7YEaZ2PV
+#            client-secret: ${KEYCLOAK_SECRET}
             authorization-grant-type: client_credentials
+            scope: openid
         provider:
           keycloak:
-            token-uri: ${KEYCLOAK_INTERNAL_URL}/realms/bank-realm/protocol/openid-connect/token
+            token-uri: http://keycloak:8080/realms/bank-realm/protocol/openid-connect/token
 
 resilience4j:
   circuitbreaker:

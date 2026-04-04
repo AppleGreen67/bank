@@ -12,9 +12,9 @@ service:
 #  nodePort: 30082
 
 keycloak:
-  external_url: http://localhost:30080
-  internal_url: http://keycloak:8080
-  secret: IGJCDgCRJT1RmRZCZep74YlAv83QlneY
+  external_url: http://keycloak.local:30080
+  internal_url: http://keycloak.local
+  secret: bQimy9NFoZnDk9S5QJNrG8zM7YEaZ2PV
 
 notification_url: http://notification-chart.default.svc.cluster.local
 

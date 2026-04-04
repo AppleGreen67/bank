@@ -29,9 +29,9 @@ service:
 #  nodePort: 30087
 
 keycloak:
-  external_url: http://localhost:30080
+  external_url: http://keycloak:30080
   internal_url: http://keycloak:8080
-  secret: IGJCDgCRJT1RmRZCZep74YlAv83QlneY
+  secret: bQimy9NFoZnDk9S5QJNrG8zM7YEaZ2PV
 
 ingress:
   enabled: false
