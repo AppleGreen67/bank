@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "accounts-chart.fullname" . }}:{{ .Values.service.port }}']
+      args: ['bank-accounts-chart/actuator/health']
   restartPolicy: Never

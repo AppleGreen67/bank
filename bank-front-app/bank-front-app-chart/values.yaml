@@ -48,6 +48,9 @@ ingress:
           pathType: ImplementationSpecific
   tls: []
 
+test:
+  enabled: false
+
 httpRoute:
   enabled: false
   annotations: {}

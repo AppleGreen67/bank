@@ -1,3 +1,4 @@
+{{- if .Values.test.enabled }}
 apiVersion: v1
 kind: Pod
 metadata:
@@ -11,5 +12,6 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "bank-front-app-chart.fullname" . }}:{{ .Values.service.port }}']
+      args: ['bank-bank-front-app-chart/actuator/health']
   restartPolicy: Never
+{{- end }}
