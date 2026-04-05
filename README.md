@@ -8,7 +8,6 @@
 1. Перейти в корневой каталог репозитория (содержит docker-compose.yaml)
 2. Запустить в терминале 'docker compose build' для сборки образов
 4. В терминале выполнить команду 'helm install ingress-nginx ingress-nginx/ingress-nginx   --namespace ingress-nginx --create-namespace'
-5. В терминале выполнить команду 'kubectl apply -f .\accounts\postgres.yaml'
 6. В терминале выполнить команду 'helm install keycloak oci://registry-1.docker.io/bitnamicharts/keycloak -f keycloak/keycloak-values.yaml'
 7. В терминале выполнить команду 'kubectl apply -f .\keycloak\keycloak-ingress.yaml'
 8. Добавьте строчки в etc/hosts:
