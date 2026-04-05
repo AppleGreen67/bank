@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "postgres.fullname" . }}
+spec:
+  serviceName: {{ .Values.serviceName | default "postgres-svc" }}
+  replicas: {{ .Values.replicas | default 1 }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appLabel | default "postgres" }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appLabel | default "postgres" }}
+    spec:
+      containers:
+        - name: postgres
+          image: "{{ .Values.image.repository | default "postgres" }}:{{ .Values.image.tag | default "15-alpine" }}"
+          ports:
+            - containerPort: 5432
+              name: postgres
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName | default "postgres-secret" }}
+                  key: postgres-password
+            - name: POSTGRES_USER
+              value: {{ .Values.postgresUser | default "postgres" | quote }}
+            - name: POSTGRES_DB
+              value: {{ .Values.postgresDB | default "postgres" | quote }}
+#            - name: PGDATA
+#              value: /var/lib/postgresql/data/pgdata
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          startupProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - exec pg_isready -U "myuser" -h 127.0.0.1 -p 5432
+            initialDelaySeconds: {{ .Values.startupProbe.initialDelaySeconds | default 30 }}
+            periodSeconds: {{ .Values.startupProbe.periodSeconds | default 10 }}
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - exec pg_isready -U "myuser" -h 127.0.0.1 -p 5432
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds | default 30 }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds | default 10 }}
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - exec pg_isready -U "myuser" -h 127.0.0.1 -p 5432
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds | default 5 }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 5 }}
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: {{ .Values.storageSize | default "1Gi" }}

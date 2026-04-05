@@ -28,8 +28,8 @@ keycloak:
   external_url: http://keycloak
   internal_url: http://keycloak:8080
 
-notification_url: http://notification-chart.default.svc.cluster.local
-accounts_url: http://accounts-chart.default.svc.cluster.local
+notification_url: http://bank-notification-chart.default.svc.cluster.local
+accounts_url: http://bank-accounts-chart.default.svc.cluster.local
 
 #ingress:
 #  enabled: false
