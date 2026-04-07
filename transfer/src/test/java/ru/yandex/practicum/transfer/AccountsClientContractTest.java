@@ -9,6 +9,8 @@ import org.springframework.test.context.ActiveProfiles;
 import ru.yandex.practicum.transfer.client.AccountsClient;
 import ru.yandex.server.domain.TransferRequest;
 
+import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -25,7 +27,7 @@ class AccountsClientContractTest {
     @Test
     void updateSumTest() {
         TransferRequest request = new TransferRequest();
-        request.setSum(1);
+        request.setSum(new BigDecimal(1));
         request.setLogin("ACC-001");
 
         Integer result = accountsClient.updateSum(request, "testLogin");
