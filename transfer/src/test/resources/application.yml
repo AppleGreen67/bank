@@ -1,8 +1,10 @@
 bank:
   accounts:
     base-url: http://accounts:8082
+    timeout: 4
   notification:
     base-url: http://notification:8087
+    timeout: 4
 
 stubrunner:
   fail-on-no-stubs: false
