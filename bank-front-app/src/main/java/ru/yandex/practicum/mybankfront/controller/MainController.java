@@ -43,14 +43,17 @@ import java.util.List;
 @Controller
 public class MainController {
 
-    @Autowired
-    private AccountsService accountsService;
-    @Autowired
-    private CashService cashService;
-    @Autowired
-    private TransferService transferService;
-    @Autowired
-    private ModelService modelService;
+    private final AccountsService accountsService;
+    private final CashService cashService;
+    private final TransferService transferService;
+    private final ModelService modelService;
+
+    public MainController(AccountsService accountsService, CashService cashService, TransferService transferService, ModelService modelService) {
+        this.accountsService = accountsService;
+        this.cashService = cashService;
+        this.transferService = transferService;
+        this.modelService = modelService;
+    }
 
     /**
      * GET /.
