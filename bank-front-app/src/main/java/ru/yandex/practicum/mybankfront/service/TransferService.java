@@ -4,6 +4,8 @@ import org.springframework.stereotype.Component;
 import ru.yandex.practicum.mybankfront.client.TransferClient;
 import ru.yandex.server.domain.TransferRequest;
 
+import java.math.BigDecimal;
+
 @Component
 public class TransferService {
     private final TransferClient client;
@@ -14,7 +16,7 @@ public class TransferService {
 
     public boolean transfer(int value, String login) {
         TransferRequest request = new TransferRequest();
-        request.setSum(value);
+        request.setSum(new BigDecimal(value));
         request.setLogin(login);
 
         try {

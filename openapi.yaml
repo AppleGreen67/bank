@@ -272,7 +272,8 @@ components:
         birthdate:
           type: string
         sum:
-          type: integer
+          type: number
+          format: decimal
     UserAccountSmall:
       type: object
       required:
@@ -291,7 +292,8 @@ components:
         - action
       properties:
         sum:
-          type: integer
+          type: number
+          format: decimal
         action:
           type: string
 
@@ -302,7 +304,8 @@ components:
         - login
       properties:
         sum:
-          type: integer
+          type: number
+          format: decimal
         login:
           type: string
 

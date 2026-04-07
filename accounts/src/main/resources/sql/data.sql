@@ -4,7 +4,7 @@ create table accounts (
      login varchar(255) unique not null,
      name varchar(255),
      birthdate date,
-     amount integer,
+     amount numeric(10,1),
      primary key (id)
 );
 

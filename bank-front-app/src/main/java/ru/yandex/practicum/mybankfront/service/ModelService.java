@@ -27,7 +27,7 @@ public class ModelService {
         ModelDto modelDto = new ModelDto();
         modelDto.setLogin(currentAccount.getLogin());
         modelDto.setName(currentAccount.getName());
-        modelDto.setSum(currentAccount.getSum());
+        modelDto.setSum(currentAccount.getSum().intValue());
         modelDto.setBirthdate(currentAccount.getBirthdate());
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
