@@ -3,13 +3,16 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsdd">
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
     <changeSet id="2" author="applegreen67">
         <preConditions onFail="MARK_RAN">
             <and>
                 <tableExists tableName="accounts"/>
                 <dbms type="postgresql"/>
+                <sqlCheck expectedResult="0">
+                    SELECT COUNT(*) FROM accounts
+                </sqlCheck>
             </and>
         </preConditions>
         <insert tableName="accounts">
@@ -24,7 +27,7 @@
             <column name="birthdate" value="2001-08-25"/>
             <column name="amount" value="200"/>
         </insert>
-        <insert tableName="vasechkin">
+        <insert tableName="accounts">
             <column name="login" value="vasechkin"/>
             <column name="name" value="Васечкин Петя"/>
             <column name="birthdate" value="2001-06-10"/>
