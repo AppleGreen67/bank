@@ -2,31 +2,37 @@ version: '3.8'
 
 services:
   bank-front-app:
+    image: bank-front-app
     build:
       context: .
       dockerfile: bank-front-app/Dockerfile
 
   accounts:
+    image: accounts
     build:
       context: .
       dockerfile: accounts/Dockerfile
 
   gateway:
+    image: gateway
     build:
       context: .
       dockerfile: gateway/Dockerfile
 
   cash:
+    image: cash
     build:
       context: .
       dockerfile: cash/Dockerfile
 
   transfer:
+    image: transfer
     build:
       context: .
       dockerfile: transfer/Dockerfile
 
   notification:
+    image: notification
     build:
       context: .
       dockerfile: notification/Dockerfile
