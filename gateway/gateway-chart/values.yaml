@@ -9,9 +9,9 @@ keycloak:
   external_url: http://keycloak
   internal_url: http://keycloak:8080
 
-accounts_url: http://bank-accounts-chart.default.svc.cluster.local
-cash_url: http://bank-cash-chart.default.svc.cluster.local
-transfer_url: http://bank-transfer-chart.default.svc.cluster.local
+accounts_url: http://bank-accounts.default.svc.cluster.local
+cash_url: http://bank-cash.default.svc.cluster.local
+transfer_url: http://bank-transfer.default.svc.cluster.local
 
 imagePullSecrets: []
 nameOverride: ""

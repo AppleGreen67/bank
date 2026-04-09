@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "accounts-chart.fullname" . }}-test-connection"
+  name: "{{ include "accounts.fullname" . }}-test-connection"
   labels:
-    {{- include "accounts-chart.labels" . | nindent 4 }}
+    {{- include "accounts.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": test
 spec:
@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['bank-accounts-chart/actuator/health']
+      args: ['bank-accounts/actuator/health']
   restartPolicy: Never

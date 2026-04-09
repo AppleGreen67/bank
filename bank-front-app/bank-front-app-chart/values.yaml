@@ -10,7 +10,7 @@ keycloak:
   token_uri: http://keycloak:8080
   jwk_uri: http://keycloak:8080
 
-gateway_url: http://bank-gateway-chart.default.svc.cluster.local
+gateway_url: http://bank-gateway.default.svc.cluster.local
 #accounts_url: http://bank-accounts-chart.default.svc.cluster.local
 #cash_url: http://bank-cash-chart.default.svc.cluster.local
 #transfer_url: http://bank-transfer-chart.default.svc.cluster.local

@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "transfer-chart.fullname" . }}-test-connection"
+  name: "{{ include "transfer.fullname" . }}-test-connection"
   labels:
-    {{- include "transfer-chart.labels" . | nindent 4 }}
+    {{- include "transfer.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": test
 spec:
@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['bank-transfer-chart/actuator/health']
+      args: ['bank-transfer/actuator/health']
   restartPolicy: Never

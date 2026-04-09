@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "transfer-chart.name" -}}
+{{- define "transfer.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "transfer-chart.fullname" -}}
+{{- define "transfer.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "transfer-chart.chart" -}}
+{{- define "transfer.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "transfer-chart.labels" -}}
-helm.sh/chart: {{ include "transfer-chart.chart" . }}
-{{ include "transfer-chart.selectorLabels" . }}
+{{- define "transfer.labels" -}}
+helm.sh/chart: {{ include "transfer.chart" . }}
+{{ include "transfer.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "transfer-chart.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "transfer-chart.name" . }}
+{{- define "transfer.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "transfer.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "transfer-chart.serviceAccountName" -}}
+{{- define "transfer.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "transfer-chart.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "transfer.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

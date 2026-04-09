@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "cash-chart.fullname" . }}
+  name: {{ include "cash.fullname" . }}
   labels:
-    {{- include "cash-chart.labels" . | nindent 4 }}
+    {{- include "cash.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "cash-chart.selectorLabels" . | nindent 6 }}
+      {{- include "cash.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "cash-chart.labels" . | nindent 8 }}
+        {{- include "cash.labels" . | nindent 8 }}
           {{- with .Values.podLabels }}
           {{- toYaml . | nindent 8 }}
           {{- end }}
@@ -27,7 +27,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "cash-chart.serviceAccountName" . }}
+      serviceAccountName: {{ include "cash.serviceAccountName" . }}
       {{- with .Values.podSecurityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
@@ -62,9 +62,9 @@ spec:
           {{- end }}
           envFrom:
             - configMapRef:
-                name: {{ include "cash-chart.fullname" . }}-config
+                name: {{ include "cash.fullname" . }}-config
             - secretRef:
-                name: {{ include "cash-chart.fullname" . }}-secret
+                name: {{ include "cash.fullname" . }}-secret
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}

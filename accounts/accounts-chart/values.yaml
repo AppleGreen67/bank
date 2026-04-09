@@ -15,7 +15,7 @@ keycloak:
   external_url: http://keycloak
   internal_url: http://keycloak:8080
 
-notification_url: http://bank-notification-chart.default.svc.cluster.local
+notification_url: http://bank-notification.default.svc.cluster.local
 
 postgres:
   url: jdbc:postgresql://postgres:5432/accounts

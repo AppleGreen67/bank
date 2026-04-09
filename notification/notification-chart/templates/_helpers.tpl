@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "notification-chart.name" -}}
+{{- define "notification.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "notification-chart.fullname" -}}
+{{- define "notification.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "notification-chart.chart" -}}
+{{- define "notification.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "notification-chart.labels" -}}
-helm.sh/chart: {{ include "notification-chart.chart" . }}
-{{ include "notification-chart.selectorLabels" . }}
+{{- define "notification.labels" -}}
+helm.sh/chart: {{ include "notification.chart" . }}
+{{ include "notification.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "notification-chart.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "notification-chart.name" . }}
+{{- define "notification.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "notification.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "notification-chart.serviceAccountName" -}}
+{{- define "notification.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "notification-chart.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "notification.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

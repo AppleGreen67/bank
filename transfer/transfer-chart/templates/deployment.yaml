@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "transfer-chart.fullname" . }}
+  name: {{ include "transfer.fullname" . }}
   labels:
-    {{- include "transfer-chart.labels" . | nindent 4 }}
+    {{- include "transfer.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "transfer-chart.selectorLabels" . | nindent 6 }}
+      {{- include "transfer.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "transfer-chart.labels" . | nindent 8 }}
+        {{- include "transfer.labels" . | nindent 8 }}
           {{- with .Values.podLabels }}
           {{- toYaml . | nindent 8 }}
           {{- end }}
@@ -27,7 +27,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "transfer-chart.serviceAccountName" . }}
+      serviceAccountName: {{ include "transfer.serviceAccountName" . }}
       {{- with .Values.podSecurityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
@@ -62,9 +62,9 @@ spec:
           {{- end }}
           envFrom:
             - configMapRef:
-                name: {{ include "transfer-chart.fullname" . }}-config
+                name: {{ include "transfer.fullname" . }}-config
             - secretRef:
-                name: {{ include "transfer-chart.fullname" . }}-secret
+                name: {{ include "transfer.fullname" . }}-secret
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}

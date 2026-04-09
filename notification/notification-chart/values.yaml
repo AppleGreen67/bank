@@ -32,6 +32,10 @@ keycloak:
   external_url: http://keycloak
   internal_url: http://keycloak:8080
 
+policies:
+  - name: notification-allow-ingress
+    s
+
 #ingress:
 #  enabled: false
 #  className: "nginx"

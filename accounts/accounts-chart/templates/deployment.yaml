@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "accounts-chart.fullname" . }}
+  name: {{ include "accounts.fullname" . }}
   labels:
-    {{- include "accounts-chart.labels" . | nindent 4 }}
+    {{- include "accounts.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "accounts-chart.selectorLabels" . | nindent 6 }}
+      {{- include "accounts.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "accounts-chart.labels" . | nindent 8 }}
+        {{- include "accounts.labels" . | nindent 8 }}
           {{- with .Values.podLabels }}
           {{- toYaml . | nindent 8 }}
           {{- end }}
@@ -27,7 +27,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "accounts-chart.serviceAccountName" . }}
+      serviceAccountName: {{ include "accounts.serviceAccountName" . }}
       {{- with .Values.podSecurityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
@@ -62,9 +62,9 @@ spec:
           {{- end }}
           envFrom:
             - configMapRef:
-                name: {{ include "accounts-chart.fullname" . }}-config
+                name: {{ include "accounts.fullname" . }}-config
             - secretRef:
-                name: {{ include "accounts-chart.fullname" . }}-secret
+                name: {{ include "accounts.fullname" . }}-secret
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}

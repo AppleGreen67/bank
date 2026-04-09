@@ -8,21 +8,21 @@ version: 0.1.0
 
 #appVersion: "1.16.0"
 dependencies:
-  - name: bank-front-app-chart
+  - name: bank-front-app
     version: "0.1.0"
     repository: "file://../bank-front-app/bank-front-app-chart"
-  - name: accounts-chart
+  - name: accounts
     version: "0.1.0"
     repository: "file://../accounts/accounts-chart"
-  - name: notification-chart
+  - name: notification
     version: "0.1.0"
     repository: "file://../notification/notification-chart"
-  - name: cash-chart
+  - name: cash
     version: "0.1.0"
     repository: "file://../cash/cash-chart"
-  - name: transfer-chart
+  - name: transfer
     version: "0.1.0"
     repository: "file://../transfer/transfer-chart"
-  - name: gateway-chart
+  - name: gateway
     version: "0.1.0"
     repository: "file://../gateway/gateway-chart"
