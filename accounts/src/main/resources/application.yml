@@ -17,10 +17,9 @@ logging:
       max-file-size: 10MB
       max-history: 30
 
-bank:
+topic:
   notification:
-    base-url: ${NOTIFICATION_URL}
-    timeout: 4
+    name: ${TOPIC_NOTIFICATION_NAME}
 
 spring:
   application:

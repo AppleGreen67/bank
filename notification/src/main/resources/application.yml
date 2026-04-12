@@ -1,6 +1,10 @@
 server:
   port: 8087
 
+topic:
+  notification:
+    name: ${TOPIC_NOTIFICATION_NAME}
+
 spring:
   application:
     name: notification
@@ -11,7 +15,7 @@ spring:
       group-id: yandex-practicum
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      properties.spring.json.trusted.packages: ru.yandex.server.domain
+      properties.spring.json.trusted.packages: ru.yandex.practicum.notification.api
 
 logging:
   level:

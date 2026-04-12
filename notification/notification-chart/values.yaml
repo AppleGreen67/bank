@@ -33,6 +33,9 @@ keycloak:
 
 kafka:
   servers: kafka-broker-0.kafka-headless.default.svc.cluster.local:9092
+  topic:
+    notification:
+      name: log-events
 
 httpRoute:
   enabled: false

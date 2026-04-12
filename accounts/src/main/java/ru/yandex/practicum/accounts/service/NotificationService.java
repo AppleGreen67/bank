@@ -2,7 +2,9 @@ package ru.yandex.practicum.accounts.service;
 
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.accounts.client.NotificationClient;
-import ru.yandex.server.domain.NotifyMessage;
+import ru.yandex.practicum.notification.api.NotifyMessage;
+
+import java.util.UUID;
 
 @Component
 public class NotificationService {
@@ -18,6 +20,7 @@ public class NotificationService {
 
     private NotifyMessage createMessage(String message, boolean error) {
         NotifyMessage notifyMessage = new NotifyMessage();
+        notifyMessage.setId(UUID.randomUUID().toString());
         notifyMessage.setError(error);
         notifyMessage.setMessage("ACCOUNTS. " + message);
         return notifyMessage;
