@@ -1,0 +1,42 @@
+service:
+  type: ClusterIP
+  port: 5432
+  targetPort: 5432
+
+image:
+  repository: postgres
+  tag: "15-alpine"
+
+postgresUser: myuser
+postgresDB: accounts
+postgresPassword: mypassword
+
+serviceName: postgres
+servicePort: 5432
+statefulsetName: postgres
+secretName: bank-postgres-secret
+appLabel: postgres
+
+storageSize: 1Gi
+
+# Ресурсы
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "250m"
+  limits:
+    memory: "512Mi"
+    cpu: "500m"
+
+replicas: 1
+
+# Probes
+startupProbe:
+  initialDelaySeconds: 30
+  periodSeconds: 10
+livenessProbe:
+  initialDelaySeconds: 30
+  periodSeconds: 10
+readinessProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 5

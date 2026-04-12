@@ -19,6 +19,8 @@ import ru.yandex.server.domain.CashRequest;
 import ru.yandex.server.domain.TransferRequest;
 import ru.yandex.server.domain.UserAccount;
 
+import java.math.BigDecimal;
+
 @Controller
 @RequestMapping("/account")
 public class AccountController {
@@ -76,12 +78,12 @@ public class AccountController {
 
     @PostMapping("/{login}/change")
     @PreAuthorize("hasRole('SERVICE') && hasAuthority('accounts.write')")
-    public ResponseEntity<Integer> change(@PathVariable String login, @RequestBody CashRequest request,
+    public ResponseEntity<BigDecimal> change(@PathVariable String login, @RequestBody CashRequest request,
                                              JwtAuthenticationToken authentication) {
 
         notificationService.sendMessage("Запрос изменения счета аккаунта " + login, false);
 
-        Integer amount = sumService.updateSum(login, request.getSum(), request.getAction());
+        BigDecimal amount = sumService.updateSum(login, request.getSum(), request.getAction());
 
         if (amount == null) {
             notificationService.sendMessage("Ошибка изменения счета аккаунта " + login, true);
@@ -94,11 +96,11 @@ public class AccountController {
 
     @PostMapping("/{login}/transfer")
     @PreAuthorize("hasRole('SERVICE') && hasAuthority('accounts.write')")
-    public ResponseEntity<Integer> transfer(@PathVariable String login, @RequestBody TransferRequest request,
+    public ResponseEntity<BigDecimal> transfer(@PathVariable String login, @RequestBody TransferRequest request,
                                             JwtAuthenticationToken authentication) {
         notificationService.sendMessage("Запрос на перевод средств с аккаунта " + login + " аккаунту " + request.getLogin(), false);
 
-        Integer amount = transferService.transfer(login, request.getSum(), request.getLogin());
+        BigDecimal amount = transferService.transfer(login, request.getSum(), request.getLogin());
 
         if (amount == null) {
             notificationService.sendMessage("Ошибка перевода средств с аккаунта " + login + " аккаунту " + request.getLogin(), true);

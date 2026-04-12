@@ -9,6 +9,8 @@ import org.springframework.test.context.ActiveProfiles;
 import ru.yandex.practicum.cash.client.AccountsClient;
 import ru.yandex.server.domain.CashRequest;
 
+import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -25,7 +27,7 @@ class AccountsClientContractTest {
     @Test
     void updateSumTest() {
         CashRequest request = new CashRequest();
-        request.setSum(5);
+        request.setSum(new BigDecimal(5));
         request.setAction("PUT");
 
         Integer result = accountsClient.updateSum(request, "testLogin");

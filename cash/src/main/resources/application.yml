@@ -1,32 +1,25 @@
 server:
   port: 8085
 
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
+    org.springframework.security.oauth2.jwt: DEBUG
+    org.springframework.security.authentication: DEBUG
+    org.springframework.security.oauth2.client: DEBUG
+
 bank:
   accounts:
-    base-url: http://accounts-sd
+    base-url: ${ACCOUNTS_URL}
     timeout: 4
   notification:
-    base-url: http://notification-sd
+    base-url: ${NOTIFICATION_URL}
     timeout: 4
 
 spring:
   application:
     name: cash
-
-  cloud:
-    consul:
-      host: consul          # Адрес Consul (по умолчанию localhost)
-      port: 8500               # Порт Consul (8500 по умолчанию)
-      discovery:
-        service-name: cash-sd  # Необязательно, по умолчанию берётся spring.application.name
-        prefer-ip-address: false
-        hostname: cash
-      config:
-        enabled: true            # Включаем Consul Config для внешней конфигурации
-        prefix: config           # Префикс в KV-хранилище Consul (по умолчанию "config")
-        defaultContext: application  # Контекст по умолчанию
-  config:
-    import: "optional:consul:"
 
   security:
     oauth2:
@@ -42,6 +35,7 @@ spring:
             client-id: transfer-service
             client-secret: ${KEYCLOAK_SECRET}
             authorization-grant-type: client_credentials
+#            scope: openid
         provider:
           keycloak:
             token-uri: ${KEYCLOAK_INTERNAL_URL}/realms/bank-realm/protocol/openid-connect/token

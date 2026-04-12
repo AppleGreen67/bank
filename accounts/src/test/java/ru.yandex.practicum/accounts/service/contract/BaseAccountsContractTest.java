@@ -5,9 +5,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.testcontainers.context.ImportTestcontainers;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.testcontainers.junit.jupiter.Testcontainers;
 import ru.yandex.practicum.accounts.service.AccountsService;
 import ru.yandex.practicum.accounts.service.NotificationService;
 import ru.yandex.practicum.accounts.service.SumService;
@@ -15,13 +17,17 @@ import ru.yandex.practicum.accounts.service.TransferService;
 import ru.yandex.practicum.accounts.service.UserService;
 import ru.yandex.server.domain.UserAccount;
 
+import java.math.BigDecimal;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
+@Testcontainers
 @AutoConfigureMockMvc
 @ActiveProfiles("contract-test")
+@ImportTestcontainers(PostgreTestContainer.class)
 public abstract class BaseAccountsContractTest {
 
     @Autowired
@@ -50,12 +56,12 @@ public abstract class BaseAccountsContractTest {
         userAccount.setLogin(testLogin);
         userAccount.setName("testName");
         userAccount.setBirthdate("2222-22-22");
-        userAccount.setSum(1);
+        userAccount.setSum(new BigDecimal(1));
         when(accountService.getAccount(testLogin)).thenReturn(userAccount);
 
-        when(sumService.updateSum(eq(testLogin), any(), any())).thenReturn(15);
+        when(sumService.updateSum(eq(testLogin), any(), any())).thenReturn(new BigDecimal(15));
 
-        when(transferService.transfer(eq(testLogin), any(), any())).thenReturn(1);
+        when(transferService.transfer(eq(testLogin), any(), any())).thenReturn(new BigDecimal(1));
 
     }
 }

@@ -4,6 +4,7 @@ server:
 bank:
   notification:
     base-url: http://notification-sd
+    timeout: 4
 
 stubrunner:
   fail-on-no-stubs: false
@@ -26,19 +27,22 @@ spring:
       discovery:
         enabled: false
 
-  datasource:
-    url: jdbc:h2:mem:usersdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    driver-class-name: org.h2.Driver
-    username: test
-    password: test
+#  datasource:
+#    url: jdbc:h2:mem:usersdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+#    driver-class-name: org.h2.Driver
+#    username: test
+#    password: test
+
+  liquibase:
+    enabled: false
 
   jpa:
     show-sql: true
 
-  sql:
-    init:
-      mode: always
-      data-locations: classpath:sql/data.sql
+#  sql:
+#    init:
+#      mode: always
+#      data-locations: classpath:sql/data.sql
 
   security:
     oauth2:

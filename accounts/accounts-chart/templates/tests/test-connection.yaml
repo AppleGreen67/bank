@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "accounts.fullname" . }}-test-connection"
+  labels:
+    {{- include "accounts.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['bank-accounts/actuator/health']
+  restartPolicy: Never

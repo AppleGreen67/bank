@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "transfer.fullname" . }}-config
+data:
+  KEYCLOAK_EXTERNAL_URL: {{ .Values.keycloak.external_url | quote }}
+  KEYCLOAK_INTERNAL_URL: {{ .Values.keycloak.internal_url | quote }}
+  NOTIFICATION_URL: {{ .Values.notification_url | quote }}
+  ACCOUNTS_URL: {{ .Values.accounts_url | quote }}

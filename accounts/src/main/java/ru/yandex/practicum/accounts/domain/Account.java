@@ -7,10 +7,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "accounts", schema = "app_accounts")
+@Table(name = "accounts")
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +20,8 @@ public class Account {
     private String login;
     private String name;
     private LocalDate birthdate;
-    private Integer amount;
+    @Column(precision = 19, scale = 2)
+    private BigDecimal amount;
 
     public Long getId() {
         return id;
@@ -53,11 +55,11 @@ public class Account {
         this.birthdate = birthdate;
     }
 
-    public Integer getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(Integer amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 }

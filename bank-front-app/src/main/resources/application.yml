@@ -3,7 +3,14 @@ server:
 
 bank:
   gateway:
-    base-url: http://gateway:8081
+    base-url: ${GATEWAY_URL}
+#    base-url: http://gateway:8081
+#  accounts:
+#    base-url: ${ACCOUNTS_URL}
+#  cash:
+#    base-url: ${CASH_URL}
+#  transfer:
+#    base-url: ${TRANSFER_URL}
 
 spring:
   application:
@@ -22,6 +29,9 @@ spring:
             provider: keycloak
         provider:
           keycloak:
-            authorization-uri: http://localhost:8080/realms/bank-realm/protocol/openid-connect/auth
-            token-uri: http://keycloak:8080/realms/bank-realm/protocol/openid-connect/token
-            jwk-set-uri: http://keycloak:8080/realms/bank-realm/protocol/openid-connect/certs
+#            authorization-uri: http://localhost:8080/realms/bank-realm/protocol/openid-connect/auth
+#            token-uri: http://keycloak:8080/realms/bank-realm/protocol/openid-connect/token
+#            jwk-set-uri: http://keycloak:8080/realms/bank-realm/protocol/openid-connect/certs
+            authorization-uri: ${KC_AUTH_URI}/realms/bank-realm/protocol/openid-connect/auth
+            token-uri: ${KC_TOKEN_URI}/realms/bank-realm/protocol/openid-connect/token
+            jwk-set-uri: ${KC_JWK_URI}/realms/bank-realm/protocol/openid-connect/certs

@@ -1,0 +1,98 @@
+replicaCount: 1
+
+image:
+  repository: notification
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8087
+#  nodePort: 30087
+
+keycloak:
+  external_url: http://keycloak
+  internal_url: http://keycloak:8080
+
+policies:
+  - name: notification-allow-ingress
+    s
+
+#ingress:
+#  enabled: false
+#  className: "nginx"
+#  annotations: {}
+#  hosts:
+#    - host: notification
+#      paths:
+#        - path: /notification
+#          pathType: Prefix
+
+httpRoute:
+  enabled: false
+  annotations: {}
+  parentRefs:
+    - name: gateway
+      sectionName: http
+  hostnames:
+    - chart-example.local
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /headers
+
+resources: {}
+
+startupProbe:
+  initialDelaySeconds: 20
+  failureThreshold: 10
+  httpGet:
+    path: /actuator/health
+    port: 8087
+livenessProbe:
+  initialDelaySeconds: 20
+  failureThreshold: 10
+  httpGet:
+    path: /actuator/health
+    port: 8087
+readinessProbe:
+  initialDelaySeconds: 20
+  failureThreshold: 10
+  httpGet:
+    path: /actuator/health
+    port: 8087
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
+volumes: []
+
+volumeMounts: []
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

@@ -1,0 +1,92 @@
+replicaCount: 1
+
+image:
+  repository: transfer
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+podAnnotations: {}
+podLabels: {}
+podSecurityContext: {}
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8086
+
+keycloak:
+  external_url: http://keycloak
+  internal_url: http://keycloak:8080
+
+notification_url: http://bank-notification.default.svc.cluster.local
+accounts_url: http://bank-accounts.default.svc.cluster.local
+
+#ingress:
+#  enabled: false
+#  className: "nginx"
+#  annotations: {}
+#  hosts:
+#    - host: transfer
+#      paths:
+#        - path: /transfer
+#          pathType: Prefix
+
+httpRoute:
+  enabled: false
+  annotations: {}
+  parentRefs:
+  - name: gateway
+    sectionName: http
+  hostnames:
+  - chart-example.local
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /headers
+
+resources: {}
+
+startupProbe:
+  initialDelaySeconds: 20
+  failureThreshold: 10
+  httpGet:
+    path: /actuator/health
+    port: 8086
+livenessProbe:
+  initialDelaySeconds: 20
+  failureThreshold: 10
+  httpGet:
+    path: /actuator/health
+    port: 8086
+readinessProbe:
+  initialDelaySeconds: 20
+  failureThreshold: 10
+  httpGet:
+    path: /actuator/health
+    port: 8086
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
+volumes: []
+volumeMounts: []
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

@@ -17,19 +17,22 @@ spring:
         webflux:
           routes:
             - id: accounts-service
-              uri: http://accounts:8082
+#              uri: http://accounts:8082
+              uri: ${ACCOUNTS_URL}
               predicates:
                 - Path=/account/**, /accounts/**
               filters:
                 - name: JwtTokenRelay
             - id: cash-service
-              uri: http://cash:8085
+              uri: ${CASH_URL}
+#              uri: http://cash:8085
               predicates:
                 - Path=/cash/**
               filters:
                 - name: JwtTokenRelay
             - id: transfer-service
-              uri: http://transfer:8086
+              uri: ${TRANSFER_URL}
+#              uri: http://transfer:8086
               predicates:
                 - Path=/transfer/**
               filters:
@@ -43,6 +46,10 @@ management:
 
 logging:
   level:
-    root: INFO
+    root: DEBUG
     org.springframework.cloud.gateway: DEBUG
     org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
+    org.springframework.security.oauth2.jwt: DEBUG
+    org.springframework.security.authentication: DEBUG
+    org.springframework.security.oauth2.client: DEBUG

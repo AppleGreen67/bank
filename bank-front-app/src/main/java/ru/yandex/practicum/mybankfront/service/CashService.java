@@ -5,6 +5,8 @@ import ru.yandex.practicum.mybankfront.client.CashClient;
 import ru.yandex.practicum.mybankfront.controller.dto.CashAction;
 import ru.yandex.server.domain.CashRequest;
 
+import java.math.BigDecimal;
+
 @Component
 public class CashService {
     private final CashClient client;
@@ -15,7 +17,7 @@ public class CashService {
 
     public boolean updateCash(int value, CashAction action) {
         CashRequest cashRequest = new CashRequest();
-        cashRequest.setSum(value);
+        cashRequest.setSum(new BigDecimal(value));
         cashRequest.setAction(action.name());
 
         try {

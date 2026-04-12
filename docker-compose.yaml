@@ -2,167 +2,37 @@ version: '3.8'
 
 services:
   bank-front-app:
-    container_name: bank-front_c
+    image: bank-front-app
     build:
       context: .
       dockerfile: bank-front-app/Dockerfile
-    restart: always
-    ports:
-      - "8084:8084"
-    networks:
-      - app-network
-    environment:
-      KEYCLOAK_INTERNAL_URL: http://keycloak:8080
-      KEYCLOAK_EXTERNAL_URL: http://localhost:8080
-      KEYCLOAK_SECRET: ${ENV_KEYCLOAK_SECRET}
 
   accounts:
-    container_name: accounts_c
+    image: accounts
     build:
       context: .
       dockerfile: accounts/Dockerfile
-    restart: always
-    ports:
-      - "8082:8082"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mydb
-      SPRING_DATASOURCE_USERNAME: myuser
-      SPRING_DATASOURCE_PASSWORD: mypassword
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      KEYCLOAK_INTERNAL_URL: http://keycloak:8080
-      KEYCLOAK_EXTERNAL_URL: http://localhost:8080
-      KEYCLOAK_SECRET: ${ENV_KEYCLOAK_SECRET}
-    depends_on:
-      postgres:
-        condition: service_healthy
-    networks:
-      - app-network
 
   gateway:
-    container_name: gateway_c
+    image: gateway
     build:
       context: .
       dockerfile: gateway/Dockerfile
-    restart: always
-    ports:
-      - "8081:8081"
-    networks:
-      - app-network
-    environment:
-      KEYCLOAK_INTERNAL_URL: http://keycloak:8080
-      KEYCLOAK_EXTERNAL_URL: http://localhost:8080
 
   cash:
-    container_name: cash_c
+    image: cash
     build:
       context: .
       dockerfile: cash/Dockerfile
-    restart: always
-    ports:
-      - "8085:8085"
-    networks:
-      - app-network
-    environment:
-      KEYCLOAK_INTERNAL_URL: http://keycloak:8080
-      KEYCLOAK_EXTERNAL_URL: http://localhost:8080
-      KEYCLOAK_SECRET: ${ENV_KEYCLOAK_SECRET}
 
   transfer:
-    container_name: transfer_c
+    image: transfer
     build:
       context: .
       dockerfile: transfer/Dockerfile
-    restart: always
-    ports:
-      - "8086:8086"
-    networks:
-      - app-network
-    environment:
-      KEYCLOAK_INTERNAL_URL: http://keycloak:8080
-      KEYCLOAK_EXTERNAL_URL: http://localhost:8080
-      KEYCLOAK_SECRET: ${ENV_KEYCLOAK_SECRET}
 
   notification:
-    container_name: notification_c
+    image: notification
     build:
       context: .
       dockerfile: notification/Dockerfile
-    restart: always
-    ports:
-      - "8087:8087"
-    networks:
-      - app-network
-    environment:
-      KEYCLOAK_INTERNAL_URL: http://keycloak:8080
-      KEYCLOAK_EXTERNAL_URL: http://localhost:8080
-      KEYCLOAK_SECRET: ${ENV_KEYCLOAK_SECRET}
-
-  postgres:
-    image: postgres:15-alpine
-    container_name: postgres
-    environment:
-      POSTGRES_DB: mydb
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-      - ./init-schemas.sql:/docker-entrypoint-initdb.d/init-schemas.sql
-#      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    networks:
-      - app-network
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U myuser -d mydb"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  keycloak:
-    image: quay.io/keycloak/keycloak:24.0.5
-    container_name: keycloak_c
-    command:
-      - start-dev
-      - --http-port=8080
-      - --import-realm
-      - --verbose
-    volumes:
-      - ./keycloak-config:/opt/keycloak/data/import
-    environment:
-      KC_DB: postgres
-      KC_DB_SCHEMA: keycloak
-      KC_DB_URL: jdbc:postgresql://postgres:5432/mydb?currentSchema=keycloak
-      KC_DB_USERNAME: myuser
-      KC_DB_PASSWORD: mypassword
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
-      KC_HOSTNAME: localhost
-      KC_HOSTNAME_PORT: 8080
-      KC_HOSTNAME_STRICT: false
-      KC_HOSTNAME_STRICT_HTTPS: false
-      KC_PROXY: edge
-    ports:
-      - "8080:8080"
-    depends_on:
-      postgres:
-        condition: service_healthy
-    networks:
-      - app-network
-
-  consul:
-    image: consul:1.15.4
-    container_name: consul_c
-#    command: agent -dev -ui -client=0.0.0.0
-    command: agent -server -bootstrap-expect=1 -ui -bind=0.0.0.0 -client=0.0.0.0
-    ports:
-      - "8500:8500"
-      - "8600:8600/udp"
-    networks:
-      - app-network
-
-volumes:
-  postgres-data:
-
-networks:
-  app-network:
-    driver: bridge
