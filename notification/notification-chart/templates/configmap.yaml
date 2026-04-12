@@ -5,3 +5,4 @@ metadata:
 data:
   KEYCLOAK_EXTERNAL_URL: {{ .Values.keycloak.external_url | quote }}
   KEYCLOAK_INTERNAL_URL: {{ .Values.keycloak.internal_url | quote }}
+  KAFKA_SERVERS: {{ .Values.kafka.servers | quote }}

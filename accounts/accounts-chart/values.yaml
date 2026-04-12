@@ -9,13 +9,15 @@ service:
   type: ClusterIP
   port: 80
   targetPort: 8082
-#  nodePort: 30082
 
 keycloak:
   external_url: http://keycloak
   internal_url: http://keycloak:8080
 
-notification_url: http://bank-notification.default.svc.cluster.local
+#notification_url: http://bank-notification.default.svc.cluster.local
+
+kafka:
+  servers: kafka-broker-0.kafka-headless.default.svc.cluster.local:9092
 
 postgres:
   url: jdbc:postgresql://postgres:5432/accounts

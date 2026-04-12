@@ -8,3 +8,4 @@ data:
   NOTIFICATION_URL: {{ .Values.notification_url | quote }}
   PG_URL: {{ .Values.postgres.url | quote }}
   PG_USER: {{ .Values.postgres.user | quote }}
+  KAFKA_SERVERS: {{ .Values.kafka.servers | quote }}
