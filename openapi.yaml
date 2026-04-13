@@ -226,37 +226,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
-  /notify:
-    post:
-      tags:
-        - Notification
-      summary: Сервис уведомлений
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/NotifyMessage'
-      responses:
-        '200':
-          description: Успешный ответ
-          content:
-            application/json:
-              schema:
-                type: integer
-        '400':
-          description: Некорректный запрос
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '500':
-          description: Внутренняя ошибка сервера
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-
 components:
   schemas:
     UserAccount:
@@ -308,17 +277,6 @@ components:
           format: decimal
         login:
           type: string
-
-    NotifyMessage:
-      type: object
-      required:
-        - message
-        - error
-      properties:
-        message:
-          type: string
-        error:
-          type: boolean
 
     ErrorResponse:
       type: object

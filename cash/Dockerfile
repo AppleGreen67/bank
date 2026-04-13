@@ -11,9 +11,14 @@ COPY accounts/pom.xml accounts/
 COPY transfer/pom.xml transfer/
 COPY notification/pom.xml notification/
 
+COPY notification-model/src notification-model/src
+COPY notification-model/pom.xml notification-model/
+
 COPY cash/pom.xml cash/
 
 RUN mvn dependency:go-offline -B
+
+RUN mvn clean install -pl notification-model -am -DskipTests=true
 
 COPY cash/src cash/src
 

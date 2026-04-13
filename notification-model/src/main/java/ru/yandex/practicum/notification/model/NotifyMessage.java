@@ -1,4 +1,4 @@
-package ru.yandex.practicum.notification.api;
+package ru.yandex.practicum.notification.model;
 
 public class NotifyMessage {
     private String id;

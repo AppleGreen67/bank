@@ -15,7 +15,7 @@ spring:
       group-id: yandex-practicum
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      properties.spring.json.trusted.packages: ru.yandex.practicum.notification.api
+      properties.spring.json.trusted.packages: ru.yandex.practicum.notification.model
 
 logging:
   level:

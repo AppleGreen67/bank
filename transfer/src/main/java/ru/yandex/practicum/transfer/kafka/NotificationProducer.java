@@ -1,4 +1,4 @@
-package ru.yandex.practicum.accounts.kafka;
+package ru.yandex.practicum.transfer.kafka;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

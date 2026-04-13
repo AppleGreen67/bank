@@ -2,7 +2,7 @@ package ru.yandex.practicum.accounts.service;
 
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.accounts.client.NotificationClient;
-import ru.yandex.practicum.notification.api.NotifyMessage;
+import ru.yandex.practicum.notification.model.NotifyMessage;
 
 import java.util.UUID;
 

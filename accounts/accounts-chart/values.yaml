@@ -42,16 +42,6 @@ podSecurityContext: {}
 
 securityContext: {}
 
-#ingress:
-#  enabled: false
-#  className: "traefik"
-#  annotations: {}
-#  hosts:
-#    - host: accounts
-#      paths:
-#        - path: /accounts
-#          pathType: Prefix
-
 httpRoute:
   enabled: false
   annotations: {}

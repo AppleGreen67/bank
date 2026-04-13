@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.notification.api.NotifyMessage;
+import ru.yandex.practicum.notification.model.NotifyMessage;
 import ru.yandex.practicum.notification.service.NotificationService;
 
 @Component

@@ -3,6 +3,7 @@ server:
 
 logging:
   level:
+    root: INFO
     org.springframework.security: DEBUG
     org.springframework.security.oauth2: DEBUG
     org.springframework.security.oauth2.jwt: DEBUG
@@ -13,13 +14,20 @@ bank:
   accounts:
     base-url: ${ACCOUNTS_URL}
     timeout: 4
+
+topic:
   notification:
-    base-url: ${NOTIFICATION_URL}
-    timeout: 4
+    name: ${TOPIC_NOTIFICATION_NAME}
 
 spring:
   application:
     name: transfer
+
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVERS}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
   security:
     oauth2:
@@ -53,22 +61,10 @@ resilience4j:
         slow-call-duration-threshold: 4s
         slow-call-rate-threshold: 50
         automatic-transition-from-open-to-half-open-enabled: true
-      notificationService:
-        failure-rate-threshold: 50
-        minimum-number-of-calls: 10
-        sliding-window-size: 10
-        sliding-window-type: COUNT_BASED
-        wait-duration-in-open-state: 10s
-        permitted-number-of-calls-in-half-open-state: 5
-        slow-call-duration-threshold: 4s
-        slow-call-rate-threshold: 50
-        automatic-transition-from-open-to-half-open-enabled: true
 
   timelimiter:
     instances:
       accountService:
-        timeout-duration: 5s
-      notificationService:
         timeout-duration: 5s
 
   retry:
