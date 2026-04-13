@@ -21,11 +21,15 @@ public class NotificationProducer {
     }
 
     public void sendMessage(NotifyMessage notifyMessage) {
-        try {
-            LOGGER.debug("Отправка сообщения в kafka...");
-            kafkaTemplate.send(notification_topic, notifyMessage.getId(), notifyMessage);
-        } catch (Exception e) {
-            LOGGER.error("Error sending log events", e);
-        }
+        LOGGER.debug("Отправка сообщения в kafka...");
+        kafkaTemplate.send(notification_topic, notifyMessage.getId(), notifyMessage)
+                .whenComplete((result, ex) -> {
+                    if (ex == null) {
+                        LOGGER.debug("Сообщение отправлено: офсет {}, партиция {}",
+                                result.getRecordMetadata().offset(), result.getRecordMetadata().partition());
+                    } else {
+                        LOGGER.error("Не получилось отправить сообщение в топик {}, ошибка: {}", notification_topic, ex.getMessage());
+                    }
+                });
     }
 }

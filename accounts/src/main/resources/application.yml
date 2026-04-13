@@ -28,8 +28,13 @@ spring:
   kafka:
     bootstrap-servers: ${KAFKA_SERVERS}
     producer:
+      acks: all
+      enable-idempotence: true
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        delivery.timeout.ms: 120000
+        retries: 2147483647
 
   datasource:
     url: ${PG_URL}
