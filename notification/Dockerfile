@@ -10,6 +10,7 @@ COPY gateway/pom.xml gateway/
 COPY accounts/pom.xml accounts/
 COPY cash/pom.xml cash/
 COPY transfer/pom.xml transfer/
+COPY notification-client/pom.xml notification-client/
 
 COPY notification-model/src notification-model/src
 COPY notification-model/pom.xml notification-model/

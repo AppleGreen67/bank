@@ -1,8 +1,8 @@
 package ru.yandex.practicum.transfer.client;
 
 import org.springframework.stereotype.Component;
+import ru.yandex.practicum.notification.client.NotificationProducer;
 import ru.yandex.practicum.notification.model.NotifyMessage;
-import ru.yandex.practicum.transfer.kafka.NotificationProducer;
 
 @Component
 public class NotificationClient {

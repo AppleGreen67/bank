@@ -16,6 +16,7 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <notification-api.version>0.0.1-SNAPSHOT</notification-api.version>
     </properties>
 
     <dependencyManagement>
@@ -34,7 +35,12 @@
         <dependency>
             <groupId>ru.yandex.practicum</groupId>
             <artifactId>notification-model</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${notification-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ru.yandex.practicum</groupId>
+            <artifactId>notification-client</artifactId>
+            <version>${notification-api.version}</version>
         </dependency>
 
         <dependency>

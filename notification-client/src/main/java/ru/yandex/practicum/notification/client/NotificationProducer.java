@@ -1,13 +1,11 @@
-package ru.yandex.practicum.accounts.kafka;
+package ru.yandex.practicum.notification.client;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.stereotype.Component;
 import ru.yandex.practicum.notification.model.NotifyMessage;
 
-@Component
 public class NotificationProducer {
     private static final Logger LOGGER = LoggerFactory.getLogger(NotificationProducer.class);
 

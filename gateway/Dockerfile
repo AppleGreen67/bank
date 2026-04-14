@@ -9,6 +9,8 @@ COPY bank-front-app/pom.xml bank-front-app/
 COPY cash/pom.xml cash/
 COPY transfer/pom.xml transfer/
 COPY notification/pom.xml notification/
+COPY notification-model/pom.xml notification-model/
+COPY notification-client/pom.xml notification-client/
 
 COPY gateway/pom.xml gateway/
 
