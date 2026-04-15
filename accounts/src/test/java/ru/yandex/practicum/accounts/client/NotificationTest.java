@@ -16,6 +16,7 @@ import org.springframework.kafka.test.hamcrest.KafkaMatchers;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import ru.yandex.practicum.accounts.service.contract.PostgreTestContainer;
+import ru.yandex.practicum.notification.client.NotificationProducer;
 import ru.yandex.practicum.notification.model.NotifyMessage;
 
 import java.time.Duration;
@@ -38,7 +39,7 @@ public class NotificationTest {
     public String TEST_TOPIC_NAME;
 
     @Autowired
-    private KafkaTemplate<String, NotifyMessage> kafkaTemplate;
+    private NotificationProducer producer;
 
     @Autowired
     private EmbeddedKafkaBroker embeddedKafkaBroker;
@@ -58,7 +59,8 @@ public class NotificationTest {
 
             String key = UUID.randomUUID().toString();
             NotifyMessage testMessage = new NotifyMessage(key, "test message", null);
-            kafkaTemplate.send(TEST_TOPIC_NAME, key, testMessage);
+
+            producer.sendMessage(testMessage);
 
             ConsumerRecord<String, Object> record = KafkaTestUtils.getSingleRecord(consumerForTest, TEST_TOPIC_NAME, Duration.ofSeconds(5));
 
