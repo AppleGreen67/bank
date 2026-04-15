@@ -23,7 +23,7 @@
             </column>
             <column name="name" type="VARCHAR(255)"/>
             <column name="birthdate" type="DATE"/>
-            <column name="amount" type="NUMERIC(10,1)"/>
+            <column name="amount" type="NUMERIC(19,2)"/>
         </createTable>
         <rollback>
             <dropTable tableName="accounts"/>
