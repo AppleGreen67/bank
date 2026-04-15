@@ -1,12 +1,14 @@
 package ru.yandex.practicum.accounts.mapper;
 
+import org.springframework.stereotype.Component;
 import ru.yandex.practicum.accounts.domain.Account;
 import ru.yandex.server.domain.UserAccount;
 import ru.yandex.server.domain.UserAccountSmall;
 
+@Component
 public class AccountMapper {
 
-    public static UserAccount mapToUA(Account account) {
+    public UserAccount mapToUA(Account account) {
         if (account == null) return null;
 
         UserAccount userAccount = new UserAccount();
@@ -17,7 +19,7 @@ public class AccountMapper {
         return userAccount;
     }
 
-    public static UserAccountSmall mapToUAS(Account account) {
+    public UserAccountSmall mapToUAS(Account account) {
         if (account == null) return null;
 
         UserAccountSmall userAccount = new UserAccountSmall();
