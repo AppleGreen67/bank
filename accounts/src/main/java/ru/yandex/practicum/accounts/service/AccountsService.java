@@ -14,22 +14,24 @@ import java.util.Objects;
 @Component
 public class AccountsService {
     private final AccountRepository accountRepository;
+    private final AccountMapper accountMapper;
 
-    public AccountsService(AccountRepository accountRepository) {
+    public AccountsService(AccountRepository accountRepository, AccountMapper accountMapper) {
         this.accountRepository = accountRepository;
+        this.accountMapper = accountMapper;
     }
 
     public UserAccount getAccount(String login) {
         Account account = accountRepository.findByLogin(login);
 
-        return AccountMapper.mapToUA(account);
+        return accountMapper.mapToUA(account);
     }
 
     public List<UserAccountSmall> getAccounts() {
         List<Account> accounts = accountRepository.findAll();
 
         return accounts.stream()
-                .map(AccountMapper::mapToUAS)
+                .map(accountMapper::mapToUAS)
                 .filter(Objects::nonNull)
                 .toList();
     }
@@ -45,6 +47,6 @@ public class AccountsService {
 
         accountRepository.save(accountFromDB);
 
-        return AccountMapper.mapToUA(accountFromDB);
+        return accountMapper.mapToUA(accountFromDB);
     }
 }

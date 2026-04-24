@@ -8,6 +8,7 @@ import io.github.resilience4j.timelimiter.TimeLimiterConfig;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProvider;
@@ -16,11 +17,18 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
+import ru.yandex.practicum.notification.client.NotificationProducer;
+import ru.yandex.practicum.notification.model.NotifyMessage;
 
 import java.time.Duration;
 
 @Configuration
 public class ClientConfig {
+
+    @Bean
+    public NotificationProducer notificationProducer(KafkaTemplate<String, NotifyMessage> kafkaTemplate) {
+        return new NotificationProducer(kafkaTemplate);
+    }
 
     @Bean
     public CircuitBreakerConfig circuitBreakerConfig() {
@@ -40,12 +48,6 @@ public class ClientConfig {
     public CircuitBreaker accountCircuitBreaker(CircuitBreakerConfig config) {
         CircuitBreakerRegistry registry = CircuitBreakerRegistry.of(config);
         return registry.circuitBreaker("accountService");
-    }
-
-    @Bean
-    public CircuitBreaker notificationCircuitBreaker(CircuitBreakerConfig config) {
-        CircuitBreakerRegistry registry = CircuitBreakerRegistry.of(config);
-        return registry.circuitBreaker("notificationService");
     }
 
     @Bean

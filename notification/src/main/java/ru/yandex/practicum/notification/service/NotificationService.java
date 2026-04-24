@@ -3,7 +3,7 @@ package ru.yandex.practicum.notification.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import ru.yandex.server.domain.NotifyMessage;
+import ru.yandex.practicum.notification.model.NotifyMessage;
 
 @Component
 public class NotificationService {

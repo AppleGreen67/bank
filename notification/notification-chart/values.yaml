@@ -26,25 +26,16 @@ service:
   type: ClusterIP
   port: 80
   targetPort: 8087
-#  nodePort: 30087
 
 keycloak:
   external_url: http://keycloak
   internal_url: http://keycloak:8080
 
-policies:
-  - name: notification-allow-ingress
-    s
-
-#ingress:
-#  enabled: false
-#  className: "nginx"
-#  annotations: {}
-#  hosts:
-#    - host: notification
-#      paths:
-#        - path: /notification
-#          pathType: Prefix
+kafka:
+  servers: kafka-broker-0.kafka-headless.default.svc.cluster.local:9092
+  topic:
+    notification:
+      name: log-events
 
 httpRoute:
   enabled: false

@@ -1,8 +1,8 @@
 package ru.yandex.practicum.transfer.service;
 
 import org.springframework.stereotype.Component;
+import ru.yandex.practicum.notification.model.NotifyMessage;
 import ru.yandex.practicum.transfer.client.NotificationClient;
-import ru.yandex.server.domain.NotifyMessage;
 
 @Component
 public class NotificationService {

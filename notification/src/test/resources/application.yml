@@ -23,20 +23,20 @@ spring:
       discovery:
         enabled: false
 
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:8080/realms/bank-realm
-          jwk-set-uri: http://keycloak:8080/realms/bank-realm/protocol/openid-connect/certs
-
-      client:
-        registration:
-          transfer-service:
-            provider: keycloak
-            client-id: transfer-service
-            client-secret: ${KEYCLOAK_SECRET}
-            authorization-grant-type: client_credentials
-        provider:
-          keycloak:
-            token-uri: http://keycloak:8080/realms/bank-realm/protocol/openid-connect/token
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          issuer-uri: http://localhost:8080/realms/bank-realm
+#          jwk-set-uri: http://keycloak:8080/realms/bank-realm/protocol/openid-connect/certs
+#
+#      client:
+#        registration:
+#          transfer-service:
+#            provider: keycloak
+#            client-id: transfer-service
+#            client-secret: ${KEYCLOAK_SECRET}
+#            authorization-grant-type: client_credentials
+#        provider:
+#          keycloak:
+#            token-uri: http://keycloak:8080/realms/bank-realm/protocol/openid-connect/token

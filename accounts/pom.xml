@@ -16,6 +16,7 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <notification-api.version>0.0.1-SNAPSHOT</notification-api.version>
     </properties>
 
     <dependencyManagement>
@@ -31,6 +32,17 @@
     </dependencyManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>ru.yandex.practicum</groupId>
+            <artifactId>notification-model</artifactId>
+            <version>${notification-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ru.yandex.practicum</groupId>
+            <artifactId>notification-client</artifactId>
+            <version>${notification-api.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -59,8 +71,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webflux</artifactId>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
         </dependency>
 
         <dependency>
@@ -109,6 +121,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-testcontainers</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka-test</artifactId>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>

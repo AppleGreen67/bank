@@ -18,6 +18,8 @@
 11. Выполнить импорт realm keycloak/bank-realm.json с импортом User, Client, Realm Roles, Client roles. При импорте выбрать режим Overwrite
 11. Перейти в Clients. Клиент transfer-service. Установить Client Secret на вкладке Credentials
 12. Прописать созданный Client Secret в bank-umbrella-chart/values.yaml
+13. Выполнить helm repo add kafka-repo https://helm-charts.itboon.top/kafka
+14. Выполнить helm install kafka kafka-repo/kafka
 13. Перейти в терминале в папку bank-umbrella-chart. Выполните команду 'helm dependency update'
 14. Перейти в корневой каталог репозитория (содержит docker-compose.yaml)
 15. Для запуска приложения bank используйте команду 'helm install bank ./bank-umbrella-chart'

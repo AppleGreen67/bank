@@ -1,43 +1,25 @@
 server:
   port: 8087
 
+topic:
+  notification:
+    name: ${TOPIC_NOTIFICATION_NAME}
+
 spring:
   application:
     name: notification
 
-#  cloud:
-#    consul:
-#      host: consul          # Адрес Consul (по умолчанию localhost)
-#      port: 8500               # Порт Consul (8500 по умолчанию)
-#      discovery:
-#        service-name: notification-sd  # Необязательно, по умолчанию берётся spring.application.name
-#        prefer-ip-address: false
-#        hostname: notification
-#      config:
-#        enabled: true            # Включаем Consul Config для внешней конфигурации
-#        prefix: config           # Префикс в KV-хранилище Consul (по умолчанию "config")
-#        defaultContext: application  # Контекст по умолчанию
-#  config:
-#    import: "optional:consul:"
-
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: ${KEYCLOAK_EXTERNAL_URL}/realms/bank-realm
-          jwk-set-uri: ${KEYCLOAK_INTERNAL_URL}/realms/bank-realm/protocol/openid-connect/certs
-
-      client:
-        registration:
-          transfer-service:
-            provider: keycloak
-            client-id: transfer-service
-            client-secret:  ${KEYCLOAK_SECRET}
-            authorization-grant-type: client_credentials
-            scope: openid
-        provider:
-          keycloak:
-            token-uri: ${KEYCLOAK_INTERNAL_URL}/realms/bank-realm/protocol/openid-connect/token
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVERS}
+    consumer:
+      enable-auto-commit: false
+      auto-offset-reset: earliest
+      group-id: yandex-practicum
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties.spring.json.trusted.packages: ru.yandex.practicum.notification.model
+    listener:
+      ack-mode: manual_immediate
 
 logging:
   level:

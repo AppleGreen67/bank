@@ -2,7 +2,7 @@ package ru.yandex.practicum.cash.service;
 
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.cash.client.NotificationClient;
-import ru.yandex.server.domain.NotifyMessage;
+import ru.yandex.practicum.notification.model.NotifyMessage;
 
 @Component
 public class NotificationService {

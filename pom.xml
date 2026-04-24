@@ -26,6 +26,8 @@
         <module>cash</module>
         <module>transfer</module>
         <module>notification</module>
+        <module>notification-model</module>
+        <module>notification-client</module>
     </modules>
 
 
