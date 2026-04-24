@@ -1,2 +1,14 @@
 global:
   kc_secret: <secret>
+
+zipkin:
+  enabled: true
+  service:
+    type: NodePort
+    port: 9411
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+    limits:
+      memory: "512Mi"

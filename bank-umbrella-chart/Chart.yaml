@@ -26,3 +26,7 @@ dependencies:
   - name: gateway
     version: "0.1.0"
     repository: "file://../gateway/gateway-chart"
+  - name: zipkin
+    version: "0.4.0"
+    repository: "https://zipkin.io/zipkin-helm"
+    condition: zipkin.enabled
