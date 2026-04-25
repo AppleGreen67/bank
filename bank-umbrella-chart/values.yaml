@@ -12,6 +12,12 @@ zipkin:
       cpu: "100m"
     limits:
       memory: "512Mi"
+  ingress:
+    enabled: true
+    host: zipkin.local
+    className: "traefik"
+    annotations:
+      kubernetes.io/ingress.class: "traefik"
 
 kube-prometheus-stack:
   alertmanager:
