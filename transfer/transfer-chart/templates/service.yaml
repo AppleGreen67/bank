@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: {{ include "transfer.fullname" . }}
   labels:
+    app: {{ .Chart.Name }}
     {{- include "transfer.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
