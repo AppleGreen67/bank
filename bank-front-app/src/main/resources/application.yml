@@ -35,3 +35,15 @@ spring:
             authorization-uri: ${KC_AUTH_URI}/realms/bank-realm/protocol/openid-connect/auth
             token-uri: ${KC_TOKEN_URI}/realms/bank-realm/protocol/openid-connect/token
             jwk-set-uri: ${KC_JWK_URI}/realms/bank-realm/protocol/openid-connect/certs
+
+management:
+  zipkin:
+    tracing:
+      endpoint: http://bank-zipkin:9411/api/v2/spans
+  tracing:
+    sampling:
+      probability: 1
+  endpoints:
+    web:
+      exposure:
+        include: '*'
