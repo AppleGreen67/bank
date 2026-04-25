@@ -35,6 +35,12 @@ kube-prometheus-stack:
       enabled: true
       size: 1Gi
 
+    sidecar:
+      dashboards:
+        enabled: true
+        label: grafana_dashboard
+        labelValue: "1"
+
   prometheus:
     prometheusSpec:
       retention: 10d
