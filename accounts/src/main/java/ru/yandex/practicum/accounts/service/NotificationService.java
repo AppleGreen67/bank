@@ -14,12 +14,13 @@ public class NotificationService {
         this.client = client;
     }
 
-    public void sendMessage(String message, boolean error) {
-        client.sendMessage(createMessage(message, error));
+    public void sendMessage(String login, String message, boolean error) {
+        client.sendMessage(createMessage(login, message, error));
     }
 
-    private NotifyMessage createMessage(String message, boolean error) {
+    private NotifyMessage createMessage(String login, String message, boolean error) {
         NotifyMessage notifyMessage = new NotifyMessage();
+        notifyMessage.setLogin(login);
         notifyMessage.setId(UUID.randomUUID().toString());
         notifyMessage.setError(error);
         notifyMessage.setMessage("ACCOUNTS. " + message);

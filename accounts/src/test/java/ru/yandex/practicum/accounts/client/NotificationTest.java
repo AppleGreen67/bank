@@ -58,7 +58,7 @@ public class NotificationTest {
             consumerForTest.subscribe(List.of(TEST_TOPIC_NAME));
 
             String key = UUID.randomUUID().toString();
-            NotifyMessage testMessage = new NotifyMessage(key, "test message", null);
+            NotifyMessage testMessage = new NotifyMessage(key,"login", "test message", null);
 
             producer.sendMessage(testMessage);
 

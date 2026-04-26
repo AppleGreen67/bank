@@ -25,11 +25,11 @@ public class CashController {
     public ResponseEntity<Integer> cashPost(@RequestBody CashRequest request, JwtAuthenticationToken authentication) {
         String login = authentication.getToken().getClaimAsString("preferred_username");
 
-        notificationService.sendMessage("Запрос изменения счета аккаунта " + login, false);
+        notificationService.sendMessage(login,"Запрос изменения счета аккаунта " + login, false);
 
         Integer sum = accountsService.updateAccount(request, login);
 
-        notificationService.sendMessage("Счет аккаунта " + login + " успешно обновлен", false);
+        notificationService.sendMessage(login,"Счет аккаунта " + login + " успешно обновлен", false);
         return ResponseEntity.ok().body(sum);
     }
 }

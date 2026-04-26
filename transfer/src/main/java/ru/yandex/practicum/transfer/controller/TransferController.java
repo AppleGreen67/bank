@@ -25,11 +25,11 @@ public class TransferController {
     public ResponseEntity<Integer> cashPost(@RequestBody TransferRequest request, JwtAuthenticationToken authentication) {
         String login = authentication.getToken().getClaimAsString("preferred_username");
 
-        notificationService.sendMessage("Запрос на перевод средств с аккаунта " + login + " аккаунту " + request.getLogin(), false);
+        notificationService.sendMessage(login,"Запрос на перевод средств с аккаунта " + login + " аккаунту " + request.getLogin(), false);
 
         Integer sum = service.transfer(request, login);
 
-        notificationService.sendMessage("Перевод средств с аккаунта " + login + " аккаунту " + request.getLogin() + " успешно проведен", false);
+        notificationService.sendMessage(login,"Перевод средств с аккаунта " + login + " аккаунту " + request.getLogin() + " успешно проведен", false);
 
         return ResponseEntity.ok().body(sum);
     }
