@@ -8,3 +8,5 @@ metadata:
 data:
   sprint-boot.json: |-
 {{ .Files.Get "dashboard/spring-boot.json" | indent 4 }}
+  bank-front-app.json: |-
+{{ .Files.Get "dashboard/bank-front-app.json" | indent 4 }}

@@ -24,7 +24,7 @@ kube-prometheus-stack:
     enabled: false
 
   grafana:
-    defaultDashboardsEnabled: true
+    defaultDashboardsEnabled: false
     adminPassword: admin
 
     service:
