@@ -51,3 +51,42 @@ kube-prometheus-stack:
             resources:
               requests:
                 storage: 20Gi
+
+logstash:
+  enabled: true
+  replicas: 1
+
+  logstashConfig:
+    logstash.yml: |
+      http.host: "0.0.0.0"
+      xpack.monitoring.enabled: false
+      config.reload.automatic: true
+      config.reload.interval: "10s"
+
+  logstashPipeline:
+    logstash.conf: |
+      input {
+        beats {
+          port => 5044
+        }
+      }
+      filter {
+        grok {
+          match => { "message" => "%{TIMESTAMP_ISO8601:timestamp} %{LOGLEVEL:level} %{GREEDYDATA:message}" }
+        }
+      }
+      output {
+        elasticsearch {
+          hosts => ["http://elasticsearch:9200"]
+          index => "logs-%{+YYYY.MM.dd}"
+        }
+
+  podAnnotations:
+    app: logstash
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "200m"
+    limits:
+      memory: "1Gi"
+      cpu: "500m"

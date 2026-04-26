@@ -4,7 +4,6 @@ metadata:
   name: bank-custom-dashboard
   labels:
     grafana_dashboard: "1"
-
 data:
   sprint-boot.json: |-
 {{ .Files.Get "dashboard/spring-boot.json" | indent 4 }}
