@@ -4,7 +4,7 @@ global:
 zipkin:
   enabled: true
   service:
-    type: NodePort
+    type: ClusterIP
     port: 9411
   resources:
     requests:
@@ -90,3 +90,46 @@ logstash:
     limits:
       memory: "1Gi"
       cpu: "500m"
+
+elasticsearch:
+  enabled: true
+  replicas: 1
+  antiAffinity: "soft"
+  resources:
+    requests:
+      memory: "1Gi"
+      cpu: "500m"
+    limits:
+      memory: "2Gi"
+      cpu: "1000m"
+  volumeClaimTemplate:
+    accessModes: ["ReadWriteOnce"]
+    resources:
+      requests:
+        storage: 10Gi
+  esJavaOpts: "-Xmx512m -Xms512m"
+
+kibana:
+  enabled: true
+  replicas: 1
+  elasticsearchHosts: "http://elasticsearch-master:9200"
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "200m"
+    limits:
+      memory: "1Gi"
+      cpu: "500m"
+  service:
+    type: ClusterIP
+    port: 5601
+  ingress:
+    enabled: true
+    className: "traefik"
+    annotations:
+      kubernetes.io/ingress.class: "traefik"
+    hosts:
+      - host: kibana.local
+        paths:
+          - path: /
+            pathType: Prefix
