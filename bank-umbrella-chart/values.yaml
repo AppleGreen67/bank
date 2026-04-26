@@ -21,7 +21,7 @@ zipkin:
 
 kube-prometheus-stack:
   alertmanager:
-    enabled: false
+    enabled: true
 
   grafana:
     defaultDashboardsEnabled: false
