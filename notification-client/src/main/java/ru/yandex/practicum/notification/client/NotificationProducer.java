@@ -16,6 +16,7 @@ public class NotificationProducer {
 
     public NotificationProducer(KafkaTemplate<String, NotifyMessage> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
+        this.kafkaTemplate.setObservationEnabled(true);
     }
 
     public void sendMessage(NotifyMessage notifyMessage) {
