@@ -23,8 +23,6 @@ public class NotificationService {
     }
 
     public void sendMessage(NotifyMessage request) {
-        LOGGER.warn("!!!!!!!!!!! login={}", request.getLogin());
-
         monitoringClient.send(NOTIFICATION_TOTAL, request.getLogin());
 
         if (trySendMessage(request))
@@ -38,9 +36,9 @@ public class NotificationService {
             return false;
 
         if (Boolean.FALSE.equals(request.getError()))
-            LOGGER.info("{}", request.getMessage());
+            LOGGER.info(request.getMessage());
         else
-            LOGGER.error("{}", request.getMessage());
+            LOGGER.error(request.getMessage());
 
         return true;
     }
