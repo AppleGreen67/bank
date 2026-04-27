@@ -2,14 +2,16 @@ package ru.yandex.practicum.notification.model;
 
 public class NotifyMessage {
     private String id;
+    private String login;
     private String message;
     private Boolean error;
 
     public NotifyMessage() {
     }
 
-    public NotifyMessage(String id, String message, Boolean error) {
+    public NotifyMessage(String id, String login, String message, Boolean error) {
         this.id = id;
+        this.login = login;
         this.message = message;
         this.error = error;
     }
@@ -20,6 +22,14 @@ public class NotifyMessage {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getMessage() {
@@ -42,6 +52,7 @@ public class NotifyMessage {
     public String toString() {
         return "NotifyMessage{" +
                 "id='" + id + '\'' +
+                ", login='" + login + '\'' +
                 ", message='" + message + '\'' +
                 ", error=" + error +
                 '}';

@@ -45,16 +45,16 @@ public class AccountController {
     public ResponseEntity<UserAccount> getAccount(JwtAuthenticationToken authentication) {
         String login = userService.getCurrentLogin(authentication);
 
-        notificationService.sendMessage("Запрос аккаунта " + login, false);
+        notificationService.sendMessage(login,"Запрос аккаунта " + login, false);
 
         UserAccount userAccount = accountService.getAccount(login);
 
         if (userAccount == null) {
-            notificationService.sendMessage("Аккаунт " + login + " не найден", true);
+            notificationService.sendMessage(login,"Аккаунт " + login + " не найден", true);
             return ResponseEntity.notFound().build();
         }
 
-        notificationService.sendMessage("Аккаунт " + login + " найден", false);
+        notificationService.sendMessage(login,"Аккаунт " + login + " найден", false);
         return ResponseEntity.ok().body(userAccount);
     }
 
@@ -63,16 +63,16 @@ public class AccountController {
     public ResponseEntity<UserAccount> updateAccount(@RequestBody UserAccount userAccount, JwtAuthenticationToken authentication) {
         String login = userService.getCurrentLogin(authentication);
 
-        notificationService.sendMessage("Запрос обновления аккаунта " + login, false);
+        notificationService.sendMessage(login,"Запрос обновления аккаунта " + login, false);
 
         UserAccount updatedAccount = accountService.updateAccount(login, userAccount);
 
         if (updatedAccount == null) {
-            notificationService.sendMessage("Ошибка обновления аккаунта " + login, true);
+            notificationService.sendMessage(login,"Ошибка обновления аккаунта " + login, true);
             return ResponseEntity.notFound().build();
         }
 
-        notificationService.sendMessage("Аккаунт " + login + " успешно обновлен", false);
+        notificationService.sendMessage(login,"Аккаунт " + login + " успешно обновлен", false);
         return ResponseEntity.ok().body(updatedAccount);
     }
 
@@ -81,16 +81,16 @@ public class AccountController {
     public ResponseEntity<BigDecimal> change(@PathVariable String login, @RequestBody CashRequest request,
                                              JwtAuthenticationToken authentication) {
 
-        notificationService.sendMessage("Запрос изменения счета аккаунта " + login, false);
+        notificationService.sendMessage(login,"Запрос изменения счета аккаунта " + login, false);
 
         BigDecimal amount = sumService.updateSum(login, request.getSum(), request.getAction());
 
         if (amount == null) {
-            notificationService.sendMessage("Ошибка изменения счета аккаунта " + login, true);
+            notificationService.sendMessage(login,"Ошибка изменения счета аккаунта " + login, true);
             return ResponseEntity.status(HttpStatus.PAYMENT_REQUIRED).build();
         }
 
-        notificationService.sendMessage("Счет аккаунта " + login + " успешно обновлен", false);
+        notificationService.sendMessage(login,"Счет аккаунта " + login + " успешно обновлен", false);
         return ResponseEntity.ok().body(amount);
     }
 
@@ -98,16 +98,16 @@ public class AccountController {
     @PreAuthorize("hasRole('SERVICE') && hasAuthority('accounts.write')")
     public ResponseEntity<BigDecimal> transfer(@PathVariable String login, @RequestBody TransferRequest request,
                                             JwtAuthenticationToken authentication) {
-        notificationService.sendMessage("Запрос на перевод средств с аккаунта " + login + " аккаунту " + request.getLogin(), false);
+        notificationService.sendMessage(login,"Запрос на перевод средств с аккаунта " + login + " аккаунту " + request.getLogin(), false);
 
         BigDecimal amount = transferService.transfer(login, request.getSum(), request.getLogin());
 
         if (amount == null) {
-            notificationService.sendMessage("Ошибка перевода средств с аккаунта " + login + " аккаунту " + request.getLogin(), true);
+            notificationService.sendMessage(login,"Ошибка перевода средств с аккаунта " + login + " аккаунту " + request.getLogin(), true);
             return ResponseEntity.status(HttpStatus.PAYMENT_REQUIRED).build();
         }
 
-        notificationService.sendMessage("Перевод средств с аккаунта " + login + " аккаунту " + request.getLogin() + " успешно проведен", false);
+        notificationService.sendMessage(login,"Перевод средств с аккаунта " + login + " аккаунту " + request.getLogin() + " успешно проведен", false);
         return ResponseEntity.ok().body(amount);
     }
 }

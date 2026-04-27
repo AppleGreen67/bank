@@ -86,3 +86,15 @@ resilience4j:
           - java.util.concurrent.TimeoutException
         ignore-exceptions:
           - java.lang.IllegalArgumentException
+
+management:
+  zipkin:
+    tracing:
+      endpoint: http://bank-zipkin:9411/api/v2/spans
+  tracing:
+    sampling:
+      probability: 1
+  endpoints:
+    web:
+      exposure:
+        include: '*'

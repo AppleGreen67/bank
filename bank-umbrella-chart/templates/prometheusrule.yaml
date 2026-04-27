@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: bank-front-app-alert
+  labels:
+    release: bank
+spec:
+  groups:
+    - name: bank-front-app
+      rules:
+        - alert: NotificationFail
+          expr: sum(rate(notification_fail_total[1m])) > 2
+          for: 30s
+          labels:
+            severity: warning
+          annotations:
+            summary: "Ошибки при отправке уведомлений"
+            description: "Ошибок при отправке уведомлений больше 2 в течение последней минут"

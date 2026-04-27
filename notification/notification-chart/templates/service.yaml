@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: {{ include "notification.fullname" . }}
   labels:
+    app: {{ .Chart.Name }}
     {{- include "notification.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}

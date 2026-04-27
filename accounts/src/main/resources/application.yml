@@ -90,3 +90,15 @@ spring:
           keycloak:
 #            token-uri: http://keycloak:8080/realms/bank-realm/protocol/openid-connect/token
             token-uri: ${KEYCLOAK_INTERNAL_URL}/realms/bank-realm/protocol/openid-connect/token
+
+management:
+  zipkin:
+    tracing:
+      endpoint: http://bank-zipkin:9411/api/v2/spans
+  tracing:
+    sampling:
+      probability: 1
+  endpoints:
+    web:
+      exposure:
+        include: '*'

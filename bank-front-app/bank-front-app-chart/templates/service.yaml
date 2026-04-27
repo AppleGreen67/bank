@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ include "bank-front-app.fullname" . }}
   labels:
-    app: ui
+    app: {{ .Chart.Name }}
     {{- include "bank-front-app.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}

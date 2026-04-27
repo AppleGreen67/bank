@@ -18,7 +18,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         // Разрешаем всем доступ к главной странице и статическим ресурсам по пути /css/**
-                        .requestMatchers("/", "/css/**").permitAll()
+                        .requestMatchers("/", "/css/**", "/actuator/**").permitAll()
+//                        .requestMatchers("/", "/actuator/**").permitAll()
                         // Все остальные запросы требуют аутентификации
                         .anyRequest().authenticated()
                 )

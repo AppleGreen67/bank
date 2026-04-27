@@ -13,6 +13,8 @@
 8. Добавьте строчки в etc/hosts:
    * 127.0.0.1 keycloak
    * 127.0.0.1 bank.local
+   * 127.0.0.1 zipkin.local
+   * 127.0.0.1 kibana.local
 9. Перейти в админку keycloak http://keycloak/ admin/admin
 10. Создать bank-realm и сделать его активным
 11. Выполнить импорт realm keycloak/bank-realm.json с импортом User, Client, Realm Roles, Client roles. При импорте выбрать режим Overwrite
